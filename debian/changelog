@@ -1,0 +1,5 @@
+gcc-defaults (1.194) stable; urgency=medium
+
+  * ['Rebuild  against by  current gcc 11.2']
+
+ -- Deepin Packages Builder <packages@deepin.org>  Fri, 12 Aug 2022 08:58:19 +0800
