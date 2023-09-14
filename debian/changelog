@@ -1,3 +1,9 @@
+gcc-defaults (1.203deepin1) unstable; urgency=medium
+
+  * Set gcc-12 version for deepin
+
+ -- Chang Yang <yangchang@deepin.org>  Thu, 14 Sep 2023 18:07:00 +0800
+
 gcc-defaults (1.203) unstable; urgency=medium
 
   * Only build gm2-doc, when building as gcc-defaults source.
