@@ -1,15 +1,15 @@
 Source: gcc-defaults
 Section: devel
 Priority: standard
-Maintainer: Deepin Developer <deepin-dev@deepin.org>
-Uploaders: Deepin Packages Builder <packages@deepin.org>
-Standards-Version: 4.6.0
+Maintainer: Debian GCC Maintainers <debian-gcc@lists.debian.org>
+Uploaders: Matthias Klose <doko@debian.org>
+Standards-Version: 4.6.2
 Build-Depends: m4, debhelper (>= 11),
   dpkg-dev (>= 1.17.11),
-  gcc-11-base (>= 11.2.0-7~),
+  gcc-12-base (>= 12.2.0-1~),
   lsb-release
-#Vcs-Browser
-#Vcs-Git
+Vcs-Browser: https://salsa.debian.org/toolchain-team/gcc-defaults
+Vcs-Git: https://salsa.debian.org/toolchain-team/gcc-defaults.git
 
 Package: cpp
 Priority: optional
@@ -367,7 +367,7 @@ Description: D compiler (language version 2), based on the GCC backend
 
 Package: gdc-multilib
 Priority: optional
-Architecture: amd64 i386 kfreebsd-amd64 mips mips64 mips64el mips64r6 mips64r6el mipsel mipsn32 mipsn32el mipsn32r6 mipsn32r6el mipsr6 mipsr6el powerpc ppc64 s390 s390x sparc sparc64 x32
+Architecture: amd64 i386 mips mips64 mips64el mips64r6 mips64r6el mipsel mipsn32 mipsn32el mipsn32r6 mipsn32r6el mipsr6 mipsr6el powerpc ppc64 s390x x32
 Depends: cpp (>= ${version:cpp}), gcc-multilib (>= ${version:cpp}), gdc (>= ${version:gcc}), gdc-${pv:gdc}-multilib ${reqv:gdc}, ${misc:Depends}
 Description: D compiler (language version 2) (multilib files)
  This compiler supports D language version 2.
@@ -401,18 +401,6 @@ Description: GNU Modula-2 compiler, based on the GCC backend
 # .
 # A dependency package on architectures with multilib support; the package
 # contains dependencies for the non-default multilib architecture(s).
-
-Package: gccbrig
-Priority: optional
-Architecture: amd64 i386 x32
-Depends: cpp (>= ${version:cpp}), gcc (>= ${version:cpp}),
-  gccbrig-${pv:brig} ${reqv:brig}, ${misc:Depends}
-Description: GNU BRIG (HSA IL) frontend
- This is the GNU BRIG (HSA IL) frontend.  The consumed format is a binary
- representation. The textual HSAIL can be compiled to it with a separate
- assembler.
- .
- This is a dependency package providing the default GNU BRIG compiler.
 
 Package: gcc-offload-nvptx
 Priority: optional
@@ -1767,3 +1755,15 @@ Description: GNU D compiler (based on GCC) for the i386 architecture
  .
  This is a dependency package providing the default GNU D cross-compiler
  for the i386 architecture.
+
+Package: gm2-doc
+Section: doc
+Architecture: any
+Priority: optional
+Depends: gm2-${pv:gm2}-doc ${reqv:gm2}, ${misc:Depends}
+Suggests: gm2 (>= ${version:gm2})
+Breaks: gm2-12-doc (<< 12.2.0-11), gm2-13-doc (<< 13-20221226-1)
+Replaces: gm2-12-doc (<< 12.2.0-11), gm2-13-doc (<< 13-20221226-1)
+Description: Documentation for the GNU Modula-2 compiler
+ Documentation for the GNU Modula-2 compiler in info format (dependency
+ package).
