@@ -179,8 +179,7 @@ REL_NO_1110	:= $(shell expr $(VMINOR) - 192)$(REL_EXT)
 REL_NO_1120	:= $(shell expr $(VMINOR) - 192)$(REL_EXT)
 
 REL_NO_1200	:= $(shell expr $(VMINOR) - 196)$(REL_EXT)
-REL_NO_1210	:= $(shell expr $(VMINOR) - 197)$(REL_EXT)
-REL_NO_1220	:= $(shell expr $(VMINOR) - 200)$(REL_EXT)
+REL_NO_1210	:= $(shell expr $(VMINOR) - 195)$(REL_EXT)
 
 # minimum required gcc-X.Y versions
 REQV_295	:= (>= 1:2.95.4-16)
@@ -207,7 +206,7 @@ REQV_8		:= (>= 8.4.0-1~)
 REQV_9		:= (>= 9.3.0-13~)
 REQV_10		:= (>= 10.4.0-1~)
 REQV_11		:= (>= 11.3.0-4~)
-REQV_12		:= (>= 12.2.0-1~)
+REQV_12		:= (>= 12.1.0-1~)
 
 # architecture dependent variables
 DEB_HOST_ARCH		:= $(shell dpkg-architecture -qDEB_HOST_ARCH)
@@ -231,18 +230,18 @@ gnat_archs  = alpha amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc
 gnat9_archs  =
 
 # CV_XXX is the complete version number, including the release, without epoch
-CV_CPP		:= 12.2.0-$(REL_NO_1220)
-CV_GCC		:= 12.2.0-$(REL_NO_1220)
-CV_GPP		:= 12.2.0-$(REL_NO_1220)
-CV_GOBJC	:= 12.2.0-$(REL_NO_1220)
-CV_GOBJCXX	:= 12.2.0-$(REL_NO_1220)
-CV_GFORT	:= 12.2.0-$(REL_NO_1220)
-CV_GGO		:= 12.2.0-$(REL_NO_1220)
-CV_GNAT		:= 12.2.0-$(REL_NO_1220)
-CV_GDC		:= 12.2.0-$(REL_NO_1220)
-CV_GM2		:= 12.2.0-$(REL_NO_1220)
-CV_BRIG		:= 12.2.0-$(REL_NO_1220)
-CV_OFFL		:= 12.2.0-$(REL_NO_1220)
+CV_CPP		:= 12.1.0-$(REL_NO_1210)
+CV_GCC		:= 12.1.0-$(REL_NO_1210)
+CV_GPP		:= 12.1.0-$(REL_NO_1210)
+CV_GOBJC	:= 12.1.0-$(REL_NO_1210)
+CV_GOBJCXX	:= 12.1.0-$(REL_NO_1210)
+CV_GFORT	:= 12.1.0-$(REL_NO_1210)
+CV_GGO		:= 12.1.0-$(REL_NO_1210)
+CV_GNAT		:= 12.1.0-$(REL_NO_1210)
+CV_GDC		:= 12.1.0-$(REL_NO_1210)
+CV_GM2		:= 12.1.0-$(REL_NO_1210)
+CV_BRIG		:= 12.1.0-$(REL_NO_1210)
+CV_OFFL		:= 12.1.0-$(REL_NO_1210)
 
 $(foreach a, $(all_archs), \
   $(foreach v, CV_CPP CV_GCC CV_GPP CV_GOBJC CV_GOBJCXX CV_GFORT CV_GGO CV_GNAT CV_GDC CV_GM2 CV_BRIG CV_OFFL, \
