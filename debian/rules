@@ -181,6 +181,11 @@ REL_NO_1120	:= $(shell expr $(VMINOR) - 192)$(REL_EXT)
 REL_NO_1200	:= $(shell expr $(VMINOR) - 196)$(REL_EXT)
 REL_NO_1210	:= $(shell expr $(VMINOR) - 197)$(REL_EXT)
 REL_NO_1220	:= $(shell expr $(VMINOR) - 200)$(REL_EXT)
+REL_NO_1230	:= $(shell expr $(VMINOR) - 206)$(REL_EXT)
+
+REL_NO_1300	:= $(shell expr $(VMINOR) - 203)$(REL_EXT)
+REL_NO_1310	:= $(shell expr $(VMINOR) - 203)$(REL_EXT)
+REL_NO_1320	:= $(shell expr $(VMINOR) - 207)$(REL_EXT)
 
 # minimum required gcc-X.Y versions
 REQV_295	:= (>= 1:2.95.4-16)
@@ -207,7 +212,8 @@ REQV_8		:= (>= 8.4.0-1~)
 REQV_9		:= (>= 9.3.0-13~)
 REQV_10		:= (>= 10.4.0-1~)
 REQV_11		:= (>= 11.3.0-4~)
-REQV_12		:= (>= 12.2.0-1~)
+REQV_12		:= (>= 12.3.0-1~)
+REQV_13		:= (>= 13.2.0-2~)
 
 # architecture dependent variables
 DEB_HOST_ARCH		:= $(shell dpkg-architecture -qDEB_HOST_ARCH)
@@ -222,8 +228,8 @@ all_archs_mips = mips mipsel mipsn32 mipsn32el mips64 mips64el mipsr6 mipsr6el m
 all_archs  = alpha arc amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 x32 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
 	     $(all_archs_mips)
 
-gcc11_archs =
-gcc12_archs  = alpha arc amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 x32 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
+gcc12_archs =
+gcc13_archs  = alpha arc amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 x32 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
 	     $(all_archs_mips)
 
 gnat_archs  = alpha amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el s390 s390x sh4 sparc sparc64 x32 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
@@ -231,84 +237,84 @@ gnat_archs  = alpha amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc
 gnat9_archs  =
 
 # CV_XXX is the complete version number, including the release, without epoch
-CV_CPP		:= 12.2.0-$(REL_NO_1220)
-CV_GCC		:= 12.2.0-$(REL_NO_1220)
-CV_GPP		:= 12.2.0-$(REL_NO_1220)
-CV_GOBJC	:= 12.2.0-$(REL_NO_1220)
-CV_GOBJCXX	:= 12.2.0-$(REL_NO_1220)
-CV_GFORT	:= 12.2.0-$(REL_NO_1220)
-CV_GGO		:= 12.2.0-$(REL_NO_1220)
-CV_GNAT		:= 12.2.0-$(REL_NO_1220)
-CV_GDC		:= 12.2.0-$(REL_NO_1220)
-CV_GM2		:= 12.2.0-$(REL_NO_1220)
-CV_BRIG		:= 12.2.0-$(REL_NO_1220)
-CV_OFFL		:= 12.2.0-$(REL_NO_1220)
+CV_CPP		:= 13.2.0-$(REL_NO_1320)
+CV_GCC		:= 13.2.0-$(REL_NO_1320)
+CV_GPP		:= 13.2.0-$(REL_NO_1320)
+CV_GOBJC	:= 13.2.0-$(REL_NO_1320)
+CV_GOBJCXX	:= 13.2.0-$(REL_NO_1320)
+CV_GFORT	:= 13.2.0-$(REL_NO_1320)
+CV_GGO		:= 13.2.0-$(REL_NO_1320)
+CV_GNAT		:= 13.2.0-$(REL_NO_1320)
+CV_GDC		:= 13.2.0-$(REL_NO_1320)
+CV_GM2		:= 13.2.0-$(REL_NO_1320)
+CV_BRIG		:= 13.2.0-$(REL_NO_1320)
+CV_OFFL		:= 13.2.0-$(REL_NO_1320)
 
 $(foreach a, $(all_archs), \
   $(foreach v, CV_CPP CV_GCC CV_GPP CV_GOBJC CV_GOBJCXX CV_GFORT CV_GGO CV_GNAT CV_GDC CV_GM2 CV_BRIG CV_OFFL, \
     $(eval $(v)_$(a) = $(call $(v)))))
 
-ifneq (,$(filter $(DEB_HOST_ARCH), $(gcc11_archs)))
-  CV_CPP		:= 11.3.0-$(REL_NO_1130)
-  CV_GCC		:= 11.3.0-$(REL_NO_1130)
-  CV_GPP		:= 11.3.0-$(REL_NO_1130)
-  CV_GOBJC		:= 11.3.0-$(REL_NO_1130)
-  CV_GOBJCXX		:= 11.3.0-$(REL_NO_1130)
-  CV_GFORT		:= 11.3.0-$(REL_NO_1130)
-  CV_GGO		:= 11.3.0-$(REL_NO_1130)
-  CV_GDC		:= 11.3.0-$(REL_NO_1130)
-  CV_GM2		:= 11.3.0-$(REL_NO_1130)
-  CV_BRIG		:= 11.3.0-$(REL_NO_1130)
-  CV_OFFL		:= 11.3.0-$(REL_NO_1130)
-  $(foreach a, $(gcc11_archs), \
+ifneq (,$(filter $(DEB_HOST_ARCH), $(gcc12_archs)))
+  CV_CPP		:= 12.3.0-$(REL_NO_1230)
+  CV_GCC		:= 12.3.0-$(REL_NO_1230)
+  CV_GPP		:= 12.3.0-$(REL_NO_1230)
+  CV_GOBJC		:= 12.3.0-$(REL_NO_1230)
+  CV_GOBJCXX		:= 12.3.0-$(REL_NO_1230)
+  CV_GFORT		:= 12.3.0-$(REL_NO_1230)
+  CV_GGO		:= 12.3.0-$(REL_NO_1230)
+  CV_GDC		:= 12.3.0-$(REL_NO_1230)
+  CV_GM2		:= 12.3.0-$(REL_NO_1230)
+  CV_BRIG		:= 12.3.0-$(REL_NO_1230)
+  CV_OFFL		:= 12.3.0-$(REL_NO_1230)
+  $(foreach a, $(gcc12_archs), \
     $(foreach v, CV_CPP CV_GCC CV_GPP CV_GOBJC CV_GOBJCXX CV_GFORT CV_GGO CV_GDC CV_GM2 CV_BRIG CV_OFFL, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
 
-ifneq (,$(filter $(DEB_HOST_ARCH), $(gnat11_archs)))
-  CV_GNAT		:= 11.3.0-$(REL_NO_1130)
+ifneq (,$(filter $(DEB_HOST_ARCH), $(gnat12_archs)))
+  CV_GNAT		:= 12.3.0-$(REL_NO_1230)
   $(foreach a, $(gnat11_archs), \
     $(foreach v, CV_GNAT, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
 
-REQV_CPP	= $(REQV_12)
-REQV_GCC	= $(REQV_12)
-REQV_GPP	= $(REQV_12)
-REQV_GOBJC	= $(REQV_12)
-REQV_GOBJCXX	= $(REQV_12)
-REQV_GFORT	= $(REQV_12)
-REQV_GGO	= $(REQV_12)
-REQV_GNAT	= $(REQV_12)
-REQV_GDC	= $(REQV_12)
-REQV_GM2	= $(REQV_12)
-REQV_BRIG	= $(REQV_12)
-REQV_OFFL	= $(REQV_12)
+REQV_CPP	= $(REQV_13)
+REQV_GCC	= $(REQV_13)
+REQV_GPP	= $(REQV_13)
+REQV_GOBJC	= $(REQV_13)
+REQV_GOBJCXX	= $(REQV_13)
+REQV_GFORT	= $(REQV_13)
+REQV_GGO	= $(REQV_13)
+REQV_GNAT	= $(REQV_13)
+REQV_GDC	= $(REQV_13)
+REQV_GM2	= $(REQV_13)
+REQV_BRIG	= $(REQV_13)
+REQV_OFFL	= $(REQV_13)
 $(foreach a, $(all_archs), \
   $(foreach v, REQV_CPP REQV_GCC REQV_GPP REQV_GOBJC REQV_GOBJCXX REQV_GFORT REQV_GGO REQV_GNAT REQV_GDC REQV_GM2 REQV_BRIG REQV_OFFL, \
     $(eval $(v)_$(a) = $(call $(v)))))
 
-ifneq (,$(filter $(DEB_HOST_ARCH),$(gcc11_archs)))
-  REQV_CPP	= $(REQV_11)
-  REQV_GCC	= $(REQV_11)
-  REQV_GPP	= $(REQV_11)
-  REQV_GOBJC	= $(REQV_11)
-  REQV_GOBJCXX	= $(REQV_11)
-  REQV_GFORT	= $(REQV_11)
-  REQV_GGO	= $(REQV_11)
-  REQV_GNAT	= $(REQV_11)
-  REQV_GDC	= $(REQV_11)
-  REQV_GM2	= $(REQV_11)
-  REQV_BRIG	= $(REQV_11)
-  REQV_OFFL	= $(REQV_11)
-  $(foreach a, $(gcc11_archs), \
+ifneq (,$(filter $(DEB_HOST_ARCH),$(gcc12_archs)))
+  REQV_CPP	= $(REQV_12)
+  REQV_GCC	= $(REQV_12)
+  REQV_GPP	= $(REQV_12)
+  REQV_GOBJC	= $(REQV_12)
+  REQV_GOBJCXX	= $(REQV_12)
+  REQV_GFORT	= $(REQV_12)
+  REQV_GGO	= $(REQV_12)
+  REQV_GNAT	= $(REQV_12)
+  REQV_GDC	= $(REQV_12)
+  REQV_GM2	= $(REQV_12)
+  REQV_BRIG	= $(REQV_12)
+  REQV_OFFL	= $(REQV_12)
+  $(foreach a, $(gcc12_archs), \
     $(foreach v, REQV_CPP REQV_GCC REQV_GPP REQV_GOBJC REQV_GOBJCXX REQV_GFORT REQV_GGO REQV_GDC REQV_GM2 REQV_BRIG REQV_OFFL, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
 
-ifneq (,$(filter $(DEB_HOST_ARCH),$(gnat11_archs)))
-  REQV_GNAT	= $(REQV_11)
-  $(foreach a, $(gnat11_archs), \
+ifneq (,$(filter $(DEB_HOST_ARCH),$(gnat12_archs)))
+  REQV_GNAT	= $(REQV_12)
+  $(foreach a, $(gnat12_archs), \
     $(foreach v, REQV_GNAT, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
@@ -355,22 +361,22 @@ m2_archs = alpha arc amd64 arm64 armel armhf i386 ia64 \
 
 mipsen_archs = amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
 
-HOST_ARCHS_alpha = amd64 i386 x32
-HOST_ARCHS_arc = amd64 i386 x32
+HOST_ARCHS_alpha = amd64 arm64 i386 ppc64el x32
+HOST_ARCHS_arc = amd64 arm64 i386 ppc64el x32
 HOST_ARCHS_amd64 = arm64 i386 ppc64el x32
 HOST_ARCHS_armhf = amd64 i386 x32 arm64 ppc64el
 HOST_ARCHS_armel = amd64 i386 x32 arm64 ppc64el
 HOST_ARCHS_arm64 = amd64 i386 x32 ppc64el
-HOST_ARCHS_hppa = amd64 i386 x32
+HOST_ARCHS_hppa = amd64 arm64 i386 ppc64el x32
 HOST_ARCHS_i386 = amd64 arm64 ppc64el x32
-HOST_ARCHS_m68k = amd64 i386 x32
-HOST_ARCHS_powerpc = amd64 i386 x32 ppc64el
+HOST_ARCHS_m68k = amd64 arm64 i386 ppc64el x32
+HOST_ARCHS_powerpc = amd64 arm64 i386 x32 ppc64el
 HOST_ARCHS_ppc64 = amd64 i386 x32 ppc64el
 HOST_ARCHS_ppc64el = amd64 i386 x32 ppc64 arm64
 HOST_ARCHS_riscv64 = amd64 i386 x32 arm64 ppc64el
 HOST_ARCHS_s390x = amd64 i386 x32 arm64 ppc64el
-HOST_ARCHS_sh4 = amd64 i386 x32
-HOST_ARCHS_sparc64 = amd64 i386 x32
+HOST_ARCHS_sh4 = amd64 arm64 i386 ppc64el x32
+HOST_ARCHS_sparc64 = amd64 arm64 i386 ppc64el x32
 HOST_ARCHS_x32 = amd64 arm64 i386 ppc64el
 $(foreach a, $(all_archs_mips), \
   $(eval HOST_ARCHS_$(a) = $(filter-out $(a), $(mipsen_archs))) \
@@ -379,17 +385,32 @@ $(foreach a, $(all_archs_mips), \
 ifeq (,$(CROSS_ARCHS))
   ifeq ($(SOURCE),gcc-defaults)
     ifneq (,$(filter $(DEB_HOST_ARCH),amd64 i386 x32))
-      CROSS_ARCHS = s390x ppc64el arm64 armhf armel \
+      CROSS_ARCHS = s390x ppc64el arm64 armhf armel riscv64 \
 	$(if $(filter $(vendor), Ubuntu), powerpc) \
         $(if $(filter $(DEB_HOST_ARCH), i386 x32), amd64) \
         $(if $(filter $(DEB_HOST_ARCH), amd64 x32), i386)
     else ifeq ($(DEB_HOST_ARCH),arm64)
-      CROSS_ARCHS = amd64 armel armhf i386 ppc64el s390x
+      CROSS_ARCHS = amd64 armel armhf i386 ppc64el riscv64 s390x \
+	$(if $(filter $(vendor), Ubuntu), powerpc)
     else ifeq ($(DEB_HOST_ARCH),ppc64)
       CROSS_ARCHS = ppc64el
     else ifeq ($(DEB_HOST_ARCH),ppc64el)
       CROSS_ARCHS = amd64 i386 $(if $(filter $(vendor), Ubuntu), powerpc) \
-	armel armhf arm64 s390x
+	armel armhf arm64 riscv64 s390x
+    else
+      CROSS_ARCHS =
+    endif
+  else ifeq ($(SOURCE),gcc-defaults-ports)
+    ifneq (,$(filter $(DEB_HOST_ARCH),amd64 i386 x32))
+      CROSS_ARCHS ?= alpha arc hppa m68k ppc64 sh4 sparc64 \
+		$(if $(filter $(vendor), Ubuntu),, powerpc) \
+		$(if $(filter $(DEB_HOST_ARCH), amd64 i386), x32)
+    else ifeq ($(DEB_HOST_ARCH),arm64)
+      CROSS_ARCHS ?= alpha arc hppa m68k sh4 sparc64 x32 \
+	       $(if $(filter $(vendor), Ubuntu),, powerpc)
+    else ifeq ($(DEB_HOST_ARCH),ppc64el)
+      CROSS_ARCHS ?= alpha arc hppa m68k sh4 sparc64 x32 \
+		$(if $(filter $(vendor), Ubuntu),, powerpc)
     else
       CROSS_ARCHS =
     endif
@@ -399,18 +420,8 @@ ifeq (,$(CROSS_ARCHS))
     else
       CROSS_ARCHS =
     endif
-  else # -ports package
-    ifneq (,$(filter $(DEB_HOST_ARCH),amd64 i386 x32))
-      CROSS_ARCHS  ?= alpha arc hppa m68k ppc64 riscv64 sh4 sparc64 \
-		$(if $(filter $(vendor), Ubuntu),, powerpc) \
-		$(if $(filter $(DEB_HOST_ARCH), amd64 i386), x32)
-    else ifeq ($(DEB_HOST_ARCH),arm64)
-      CROSS_ARCHS = x32 riscv64
-    else ifeq ($(DEB_HOST_ARCH),ppc64el)
-      CROSS_ARCHS = x32 riscv64 $(if $(filter $(vendor), Ubuntu),, powerpc)
-    else
-      CROSS_ARCHS =
-    endif
+  else
+    $(error Unknown source package $(SOURCE))
   endif
 endif
 
@@ -820,7 +831,7 @@ ifeq ($(with_native),yes)
 	  /usr/bin/gcov-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov \
 	  /usr/bin/lto-dump-$(PV_GCC) /usr/bin/lto-dump \
 	  /usr/bin/lto-dump-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-lto-dump \
-	  /usr/lib/gcc/$(DEB_HOST_GNU_TYPE)/$(PV_GCC)/liblto_plugin.so /usr/lib/bfd-plugins/liblto_plugin.so \
+	  /usr/libexec/gcc/$(DEB_HOST_GNU_TYPE)/$(PV_GCC)/liblto_plugin.so /usr/lib/bfd-plugins/liblto_plugin.so \
 	  /usr/share/doc/gcc-$(PV_GCC)/README.Bugs /usr/share/doc/cpp/README.Bugs \
 	  $(if $(filter $(DEB_HOST_ARCH), $(gcc49_archs)),, \
 	    /usr/bin/gcov-dump-$(PV_GCC) /usr/bin/gcov-dump \
