@@ -1,14 +1,28 @@
-gcc-defaults (1.203deepin2) unstable; urgency=medium
+gcc-defaults (1.208) unstable; urgency=medium
 
-  * Fix gcc-12 version (12.1) for deepin
+  * Bump GCC 13 version to 13.2.0.
+  * Build riscv64 packages from this source package.
+  * Build alpha hppa m68k sh4 sparc64 cross packages on arm64 and ppc64el.
 
- -- Chang Yang <yangchang@deepin.org>  Mon, 18 Sep 2023 14:56:00 +0800
+ -- Matthias Klose <doko@debian.org>  Fri, 11 Aug 2023 20:13:58 +0200
 
-gcc-defaults (1.203deepin1) unstable; urgency=medium
+gcc-defaults (1.207) unstable; urgency=medium
 
-  * Set gcc-12 version for deepin
+  * Upload to unstable, defaulting to GCC 13.
 
- -- Chang Yang <yangchang@deepin.org>  Thu, 14 Sep 2023 18:07:00 +0800
+ -- Matthias Klose <doko@debian.org>  Thu, 13 Jul 2023 14:08:06 +0200
+
+gcc-defaults (1.206) experimental; urgency=medium
+
+  * Fix liblto_plugin.so symlink. Closes: #1035521.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 22 Jun 2023 15:55:43 +0200
+
+gcc-defaults (1.204) experimental; urgency=medium
+
+  * Default to GCC 13.1.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 01 May 2023 09:22:48 +0200
 
 gcc-defaults (1.203) unstable; urgency=medium
 
