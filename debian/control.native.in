@@ -4,9 +4,9 @@ Priority: optional
 Architecture: any
 Section: interpreters
 Multi-Arch: allowed
-Depends: cpp-${pv:cpp} ${reqv:cpp}, ${misc:Depends}
+Depends: cpp-${pv:cpp} ${reqv:cpp}, cpp${native:suffix} (= ${version:cpp}), ${misc:Depends}
 Suggests: cpp-doc
-Conflicts: cpp-doc (<< 1:2.95.3)
+Conflicts: cpp-doc (<< 1:2.95.3), gcc (<< 4:13.2.0-3)
 Description: GNU C preprocessor (cpp)
  The GNU C preprocessor is a macro processor that is used automatically
  by the GNU C compiler to transform programs before actual compilation.
@@ -16,23 +16,84 @@ Description: GNU C preprocessor (cpp)
  .
  This is a dependency package providing the default GNU C preprocessor.
 
+Package: cpp-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: cpp${native:suffix} (= ${version:cpp}), cpp-${pv:cpp}-for-host ${reqv:cpp},
+  ${misc:Depends}
+Description: GNU C preprocessor (cpp) for the host architecture
+ The GNU C preprocessor is a macro processor that is used automatically
+ by the GNU C compiler to transform programs before actual compilation.
+ .
+ This package has been separated from gcc for the benefit of those who
+ require the preprocessor but not the compiler.
+ .
+ When using cpp via this metapackage, all tools must be used with an
+ architecture prefix.
+
+Package: cpp-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: cpp (= ${version:cpp}), cpp-${pv:cpp}-for-build ${reqv:cpp},
+  ${misc:Depends}
+Description: GNU C preprocessor (cpp) for the build architecture
+ The GNU C preprocessor is a macro processor that is used automatically
+ by the GNU C compiler to transform programs before actual compilation.
+ .
+ This package has been separated from gcc for the benefit of those who
+ require the preprocessor but not the compiler.
+ .
+ When using cpp via this metapackage, all tools must be used without an
+ architecture prefix.
+
 Package: gcc
 Priority: optional
 Architecture: any
-Depends: cpp (= ${version:cpp}), gcc-${pv:gcc} ${reqv:gcc}, ${misc:Depends}
+Depends: cpp (= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc-${pv:gcc} ${reqv:gcc}, gcc${native:suffix} (= ${version:gcc}), ${misc:Depends}
 Recommends: libc6-dev | libc-dev
 Suggests: gcc-multilib, make, manpages-dev, autoconf, automake, libtool, flex, bison, gdb, gcc-doc
-Provides: c-compiler, ${gcc:triplet}
+Provides: c-compiler
 Conflicts: gcc-doc (<< 1:2.95.3)
 Description: GNU C compiler
  This is the GNU C compiler, a fairly portable optimizing compiler for C.
  .
  This is a dependency package providing the default GNU C compiler.
 
+Package: gcc-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: gcc${native:suffix} (= ${version:gcc}), cpp${native:suffix} (= ${version:cpp}),
+  cpp-for-host (= ${version:cpp}), gcc-${pv:gcc}-for-host ${reqv:gcc}, ${misc:Depends}
+Recommends: libc6-dev | libc-dev
+Description: GNU C compiler for the host architecture
+ This is the GNU C compiler, a fairly portable optimizing compiler for C.
+ .
+ This is a dependency package providing the default GNU C compiler.
+ .
+ When using gcc via this metapackage, all tools must be used with an
+ architecture prefix.
+
+Package: gcc-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: gcc (= ${version:gcc}), cpp-for-build (= ${version:cpp}),
+  gcc-${pv:gcc}-for-build ${reqv:gcc}, ${misc:Depends}
+Description: GNU C compiler for the build architecture
+ This is the GNU C compiler, a fairly portable optimizing compiler for C.
+ .
+ This is a dependency package providing the default GNU C compiler.
+ .
+ When using gcc via this metapackage, all tools must be used without an
+ architecture prefix.
+
 Package: gcc-multilib
 Priority: optional
 Architecture: @multilib_archs@
-Depends: cpp (= ${version:cpp}), gcc (= ${version:gcc}), gcc-${pv:gcc}-multilib ${reqv:gcc}, ${misc:Depends}, linux-libc-dev (>= 3.0.0-2) [linux-any]
+Depends: cpp (= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (= ${version:gcc}), gcc-${pv:gcc}-multilib ${reqv:gcc}, ${misc:Depends}, linux-libc-dev [linux-any]
 Conflicts: gcc-4.9-alpha-linux-gnu,
   gcc-4.9-aarch64-linux-gnu,
   gcc-4.9-arm-linux-gnueabi,
@@ -218,6 +279,66 @@ Conflicts: gcc-4.9-alpha-linux-gnu,
   gcc-12-sparc64-linux-gnu,
   gcc-12-x86-64-linux-gnu,
   gcc-12-x86-64-linux-gnux32,
+  gcc-13-aarch64-linux-gnu [!arm64],
+  gcc-13-alpha-linux-gnu [!alpha],
+  gcc-13-arm-linux-gnueabi [!armel],
+  gcc-13-arm-linux-gnueabihf [!armhf],
+  gcc-13-hppa-linux-gnu [!hppa],
+  gcc-13-i686-linux-gnu [!i386],
+  gcc-13-m68k-linux-gnu [!m68k],
+  gcc-13-powerpc-linux-gnu [!powerpc],
+  gcc-13-powerpc64-linux-gnu [!ppc64],
+  gcc-13-powerpc64le-linux-gnu [!ppc64el],
+  gcc-13-mips-linux-gnu [!mips],
+  gcc-13-mipsel-linux-gnu [!mipsel],
+  gcc-13-mips64-linux-gnuabi64 [!mips64],
+  gcc-13-mips64el-linux-gnuabi64 [!mips64el],
+  gcc-13-riscv64-linux-gnu [!riscv64],
+  gcc-13-s390x-linux-gnu [!s390x],
+  gcc-13-sh4-linux-gnu [!sh4],
+  gcc-13-sparc64-linux-gnu [!sparc64],
+  gcc-13-x86-64-linux-gnu [!amd64],
+  gcc-13-x86-64-linux-gnux32 [!x32],
+  gcc-14-aarch64-linux-gnu [!arm64],
+  gcc-14-alpha-linux-gnu [!alpha],
+  gcc-14-arm-linux-gnueabi [!armel],
+  gcc-14-arm-linux-gnueabihf [!armhf],
+  gcc-14-hppa-linux-gnu [!hppa],
+  gcc-14-i686-linux-gnu [!i386],
+  gcc-14-m68k-linux-gnu [!m68k],
+  gcc-14-powerpc-linux-gnu [!powerpc],
+  gcc-14-powerpc64-linux-gnu [!ppc64],
+  gcc-14-powerpc64le-linux-gnu [!ppc64el],
+  gcc-14-mips-linux-gnu [!mips],
+  gcc-14-mipsel-linux-gnu [!mipsel],
+  gcc-14-mips64-linux-gnuabi64 [!mips64],
+  gcc-14-mips64el-linux-gnuabi64 [!mips64el],
+  gcc-14-riscv64-linux-gnu [!riscv64],
+  gcc-14-s390x-linux-gnu [!s390x],
+  gcc-14-sh4-linux-gnu [!sh4],
+  gcc-14-sparc64-linux-gnu [!sparc64],
+  gcc-14-x86-64-linux-gnu [!amd64],
+  gcc-14-x86-64-linux-gnux32 [!x32],
+  gcc-15-aarch64-linux-gnu [!arm64],
+  gcc-15-alpha-linux-gnu [!alpha],
+  gcc-15-arm-linux-gnueabi [!armel],
+  gcc-15-arm-linux-gnueabihf [!armhf],
+  gcc-15-hppa-linux-gnu [!hppa],
+  gcc-15-i686-linux-gnu [!i386],
+  gcc-15-m68k-linux-gnu [!m68k],
+  gcc-15-powerpc-linux-gnu [!powerpc],
+  gcc-15-powerpc64-linux-gnu [!ppc64],
+  gcc-15-powerpc64le-linux-gnu [!ppc64el],
+  gcc-15-mips-linux-gnu [!mips],
+  gcc-15-mipsel-linux-gnu [!mipsel],
+  gcc-15-mips64-linux-gnuabi64 [!mips64],
+  gcc-15-mips64el-linux-gnuabi64 [!mips64el],
+  gcc-15-riscv64-linux-gnu [!riscv64],
+  gcc-15-s390x-linux-gnu [!s390x],
+  gcc-15-sh4-linux-gnu [!sh4],
+  gcc-15-sparc64-linux-gnu [!sparc64],
+  gcc-15-x86-64-linux-gnu [!amd64],
+  gcc-15-x86-64-linux-gnux32 [!x32],
 Description: GNU C compiler (multilib files)
  This is the GNU C compiler, a fairly portable optimizing compiler for C.
  .
@@ -227,18 +348,47 @@ Description: GNU C compiler (multilib files)
 Package: g++
 Priority: optional
 Architecture: any
-Depends: cpp (= ${version:cpp}), gcc (= ${version:cpp}), g++-${pv:gpp} ${reqv:gpp}, gcc-${pv:gpp} ${reqv:gpp}, ${misc:Depends}
+Depends: cpp (= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (= ${version:gcc}), g++-${pv:gpp} ${reqv:gpp}, g++${native:suffix} (= ${version:gpp}), gcc-${pv:gpp} ${reqv:gpp}, ${misc:Depends}
 Suggests: ${pkgmulti:gpp}
-Provides: c++-compiler, ${gpp:triplet}
+Provides: c++-compiler
 Description: GNU C++ compiler
  This is the GNU C++ compiler, a fairly portable optimizing compiler for C++.
  .
  This is a dependency package providing the default GNU C++ compiler.
 
+Package: g++-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: g++${native:suffix} (= ${version:gpp}), cpp${native:suffix} (= ${version:cpp}),
+  gcc-for-host (= ${version:gcc}), g++-${pv:gpp}-for-host ${reqv:gpp},
+  ${misc:Depends}
+Description: GNU C++ compiler for the host architecture
+ This is the GNU C++ compiler, a fairly portable optimizing compiler for C++.
+ .
+ This is a dependency package providing the default GNU C++ compiler.
+ .
+ When using g++ via this metapackage, all tools must be used with an
+ architecture prefix.
+
+Package: g++-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: g++ (= ${version:gpp}), gcc-for-build (= ${version:gcc}),
+  g++-${pv:gpp}-for-build ${reqv:gpp}, ${misc:Depends}
+Description: GNU C++ compiler for the build architecture
+ This is the GNU C++ compiler, a fairly portable optimizing compiler for C++.
+ .
+ This is a dependency package providing the default GNU C++ compiler.
+ .
+ When using g++ via this metapackage, all tools must be used without an
+ architecture prefix.
+
 Package: g++-multilib
 Priority: optional
 Architecture: @multilib_archs@
-Depends: cpp (= ${version:cpp}), gcc-multilib (= ${version:cpp}), g++ (= ${version:cpp}), g++-${pv:gpp}-multilib ${reqv:gpp}, ${misc:Depends}
+Depends: cpp (= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc-multilib (= ${version:cpp}), g++ (= ${version:cpp}), g++-${pv:gpp}-multilib ${reqv:gpp}, ${misc:Depends}
 Description: GNU C++ compiler (multilib files)
  This is the GNU C++ compiler, a fairly portable optimizing compiler for C++.
  .
@@ -248,7 +398,7 @@ Description: GNU C++ compiler (multilib files)
 Package: gobjc
 Priority: optional
 Architecture: any
-Depends: cpp (>= ${version:cpp}), gcc (>= ${version:cpp}), gobjc-${pv:gobjc} ${reqv:gobjc}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (>= ${version:cpp}), gobjc-${pv:gobjc} ${reqv:gobjc}, gobjc${native:suffix} (= ${version:gobjc}), ${misc:Depends}
 Suggests: ${pkgmulti:gobjc}
 Provides: objc-compiler
 Description: GNU Objective-C compiler
@@ -258,10 +408,42 @@ Description: GNU Objective-C compiler
  .
  This is a dependency package providing the default GNU Objective-C compiler.
 
+Package: gobjc-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: cpp${native:suffix} (= ${version:cpp}),
+  gcc${native:suffix} (>= ${version:cpp}), gobjc${native:suffix} (= ${version:gobjc}),
+  gcc-for-host (= ${version:gcc}), gobjc-${pv:gobjc}-for-host ${reqv:gobjc},
+  ${misc:Depends}
+Description: GNU Objective-C compiler for the host architecture
+ This is the GNU Objective-C compiler, which compiles Objective-C on platforms
+ supported by the gcc compiler. It uses the gcc backend to generate optimized
+ code.
+ .
+ This is a dependency package providing the default GNU Objective-C compiler.
+ .
+ Tools used via this metapackage must be used with an architecture prefix.
+
+Package: gobjc-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: gobjc (= ${version:gobjc}), gcc-for-build (= ${version:gcc}),
+  gobjc-${pv:gobjc}-for-build ${reqv:gobjc}, ${misc:Depends}
+Description: GNU Objective-C compiler for the build architecture
+ This is the GNU Objective-C compiler, which compiles Objective-C on platforms
+ supported by the gcc compiler. It uses the gcc backend to generate optimized
+ code.
+ .
+ This is a dependency package providing the default GNU Objective-C compiler.
+ .
+ Tools used via this metapackage must be used without an architecture prefix.
+
 Package: gobjc-multilib
 Priority: optional
 Architecture: @multilib_archs@
-Depends: cpp (>= ${version:cpp}), gcc-multilib (>= ${version:cpp}), gobjc (>= ${version:gcc}), gobjc-${pv:gobjc}-multilib ${reqv:gobjc}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc-multilib (>= ${version:cpp}), gobjc (>= ${version:gcc}), gobjc-${pv:gobjc}-multilib ${reqv:gobjc}, ${misc:Depends}
 Description: GNU Objective-C compiler (multilib files)
  This is the GNU Objective-C compiler, which compiles Objective-C on
  platforms supported by the gcc compiler.
@@ -272,7 +454,7 @@ Description: GNU Objective-C compiler (multilib files)
 Package: gobjc++
 Priority: optional
 Architecture: any
-Depends: cpp (>= ${version:cpp}), gcc (>= ${version:cpp}), gobjc++-${pv:gobjcxx} ${reqv:gobjcxx}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (>= ${version:cpp}), gobjc++-${pv:gobjcxx} ${reqv:gobjcxx}, gobjc++${native:suffix} (= ${version:gobjcxx}), ${misc:Depends}
 Recommends: g++ (>= ${version:cpp}), gobjc (>= ${version:cpp})
 Suggests: ${pkgmulti:gobjcxx}
 Provides: objc++-compiler
@@ -283,10 +465,44 @@ Description: GNU Objective-C++ compiler
  .
  This is a dependency package providing the default GNU Objective-C++ compiler.
 
+Package: gobjc++-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: cpp${native:suffix} (= ${version:cpp}),
+  gcc${native:suffix} (>= ${version:cpp}), gobjc++${native:suffix} (= ${version:gobjcxx}),
+  gobjc-for-host (= ${version:gobjc}), g++-for-host (= ${version:gpp}),
+  gobjc++-${pv:gobjcxx}-for-host ${reqv:gobjcxx}, ${misc:Depends}
+Description: GNU Objective-C++ compiler for the host architecture
+ This is the GNU Objective-C++ compiler, which compiles
+ Objective-C++ on platforms supported by the gcc compiler. It uses the
+ gcc backend to generate optimized code.
+ .
+ This is a dependency package providing the default GNU Objective-C++ compiler.
+ .
+ Tools used via this metapackage must be used with an architecture prefix.
+
+Package: gobjc++-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: gobjc++ (= ${version:gobjcxx}), ${misc:Depends},
+  gobjc-for-build (= ${version:gobjc}), g++-for-build (= ${version:gpp}),
+  gobjc++-${pv:gobjcxx}-for-build ${reqv:gobjcxx}
+Description: GNU Objective-C++ compiler for the build architecture
+ This is the GNU Objective-C++ compiler, which compiles
+ Objective-C++ on platforms supported by the gcc compiler. It uses the
+ gcc backend to generate optimized code.
+ .
+ This is a dependency package providing the default GNU Objective-C++ compiler.
+ .
+ Tools used via this metapackage must be used without an architecture prefix.
+
+
 Package: gobjc++-multilib
 Priority: optional
 Architecture: @multilib_archs@
-Depends: cpp (>= ${version:cpp}), gobjc-multilib (>= ${version:cpp}), gobjc++ (>= ${version:gcc}), gobjc++-${pv:gobjcxx}-multilib ${reqv:gobjcxx}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gobjc-multilib (>= ${version:cpp}), gobjc++ (>= ${version:gcc}), gobjc++-${pv:gobjcxx}-multilib ${reqv:gobjcxx}, ${misc:Depends}
 Description: GNU Objective-C++ compiler (multilib files)
  This is the GNU Objective-C++ compiler, which compiles Objective-C++ on
  platforms supported by the gcc compiler.
@@ -297,7 +513,7 @@ Description: GNU Objective-C++ compiler (multilib files)
 Package: gfortran
 Priority: optional
 Architecture: any
-Depends: cpp (= ${version:cpp}), gcc (= ${version:gcc}), gfortran-${pv:gfort} ${reqv:gfort}, ${misc:Depends}
+Depends: cpp (= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (= ${version:gcc}), gfortran-${pv:gfort} ${reqv:gfort}, gfortran${native:suffix} (= ${version:gfort}), ${misc:Depends}
 Suggests: ${pkgmulti:gfort}, gfortran-doc
 Provides: fortran-compiler, ${fortran:mod-version}
 Description: GNU Fortran 95 compiler
@@ -307,10 +523,41 @@ Description: GNU Fortran 95 compiler
  .
  This is a dependency package providing the default GNU Fortran 95 compiler.
 
+Package: gfortran-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: cpp${native:suffix} (= ${version:cpp}), gcc${native:suffix} (= ${version:gcc}),
+  gcc-for-host (= ${version:gcc}), gfortran-${pv:gfort}-for-host ${reqv:gfort},
+  gfortran${native:suffix} (= ${version:gfort}), ${misc:Depends}
+Description: GNU Fortran 95 compiler for the host architecture
+ This is the GNU Fortran 95 compiler, which compiles Fortran 95 on platforms
+ supported by the gcc compiler. It uses the gcc backend to generate optimized
+ code.
+ .
+ This is a dependency package providing the default GNU Fortran 95 compiler.
+ .
+ Tools used via this metapackage must be used with an architecture prefix.
+
+Package: gfortran-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: gfortran (= ${version:gfort}), gcc-for-build (= ${version:gcc}),
+  gfortran-${pv:gfort}-for-build ${reqv:gfort}, ${misc:Depends}
+Description: GNU Fortran 95 compiler for the build architecture
+ This is the GNU Fortran 95 compiler, which compiles Fortran 95 on platforms
+ supported by the gcc compiler. It uses the gcc backend to generate optimized
+ code.
+ .
+ This is a dependency package providing the default GNU Fortran 95 compiler.
+ .
+ Tools used via this metapackage must be used without an architecture prefix.
+
 Package: gfortran-multilib
 Priority: optional
 Architecture: @multilib_archs@
-Depends: cpp (= ${version:cpp}), gcc-multilib (= ${version:cpp}), gfortran (= ${version:gcc}), gfortran-${pv:gfort}-multilib ${reqv:gfort}, ${misc:Depends}
+Depends: cpp (= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc-multilib (= ${version:cpp}), gfortran (= ${version:gcc}), gfortran-${pv:gfort}-multilib ${reqv:gfort}, ${misc:Depends}
 Description: GNU Fortran 95 compiler (multilib files)
  This is the GNU Fortran compiler, which compiles Fortran 95 on platforms
  supported by the gcc compiler.
@@ -321,7 +568,7 @@ Description: GNU Fortran 95 compiler (multilib files)
 Package: gccgo
 Priority: optional
 Architecture: any
-Depends: cpp (>= ${version:cpp}), gcc (>= ${version:gcc}), gccgo-${pv:ggo} ${reqv:ggo}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (>= ${version:gcc}), gccgo-${pv:ggo} ${reqv:ggo}, gccgo${native:suffix} (= ${version:ggo}), ${misc:Depends}
 Suggests: ${pkgmulti:ggo}
 Provides: go-compiler
 Description: Go compiler, based on the GCC backend
@@ -330,10 +577,39 @@ Description: Go compiler, based on the GCC backend
  .
  This is a dependency package providing the default GNU Go compiler.
 
+Package: gccgo-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: cpp${native:suffix} (= ${version:cpp}), gcc${native:suffix} (>= ${version:gcc}),
+  gcc-for-host (= ${version:gcc}), gccgo-${pv:ggo}-for-host ${reqv:ggo},
+  gccgo${native:suffix} (= ${version:ggo}), ${misc:Depends}
+Description: Go compiler, based on the GCC backend for the host architecture
+ This is the GNU Go compiler, which compiles Go on platforms supported by
+ the gcc compiler. It uses the gcc backend to generate optimized code.
+ .
+ This is a dependency package providing the default GNU Go compiler.
+ .
+ Tools used via this metapackage must be used with an architecture prefix.
+
+Package: gccgo-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: gccgo (= ${version:ggo}), gcc-for-build (= ${version:gcc}),
+  gccgo-${pv:ggo}-for-build ${reqv:ggo}, ${misc:Depends}
+Description: Go compiler, based on the GCC backend for the build architecture
+ This is the GNU Go compiler, which compiles Go on platforms supported by
+ the gcc compiler. It uses the gcc backend to generate optimized code.
+ .
+ This is a dependency package providing the default GNU Go compiler.
+ .
+ Tools used via this metapackage must be used without an architecture prefix.
+
 Package: gccgo-multilib
 Priority: optional
 Architecture: @go_multilib_archs@
-Depends: cpp (>= ${version:cpp}), gcc-multilib (>= ${version:cpp}), gccgo (>= ${version:ggo}), gccgo-${pv:ggo}-multilib ${reqv:ggo}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc-multilib (>= ${version:cpp}), gccgo (>= ${version:ggo}), gccgo-${pv:ggo}-multilib ${reqv:ggo}, ${misc:Depends}
 Description: Go compiler, based on the GCC backend (multilib files)
  This is the GNU Go compiler, which compiles Go on platforms supported by
  the gcc compiler. It uses the gcc backend to generate optimized code.
@@ -344,7 +620,7 @@ Description: Go compiler, based on the GCC backend (multilib files)
 Package: gdc
 Priority: optional
 Architecture: any
-Depends: gdc-${pv:gdc} ${reqv:gdc}, ${dep:libgphobos}, ${misc:Depends}
+Depends: gdc-${pv:gdc} ${reqv:gdc}, gdc${native:suffix} (= ${version:gdc}), ${dep:libgphobos}, ${misc:Depends}
 Replaces: gdc-4.1 (<< 0.25-4.1.2-18), gdc-4.2 (<< 0.25-4.2.2-7), gdc-4.3 (<< 1:1.043-4.3.4-1)
 Description: D compiler (language version 2), based on the GCC backend
  This is a dependency package providing the default D compiler.
@@ -353,10 +629,40 @@ Description: D compiler (language version 2), based on the GCC backend
  .
  This compiler supports D language version 2.
 
+Package: gdc-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: gdc${native:suffix} (= ${version:gdc}), ${dep:libgphobos},
+  gcc-for-host (= ${version:gcc}), gdc-${pv:gdc}-for-host ${reqv:gdc}, ${misc:Depends}
+Description: D compiler (language version 2) for the host architecture
+ This is a dependency package providing the default D compiler.
+ Per policy, all packages that contain D sources must use this package
+ in their Build-Depends line.
+ .
+ This compiler supports D language version 2.
+ .
+ Tools used via this metapackage must be used with an architecture prefix.
+
+Package: gdc-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: gdc (= ${version:gdc}), gcc-for-build (= ${version:gcc}),
+  gdc-${pv:gdc}-for-build ${reqv:gdc}, ${misc:Depends}
+Description: GNU D compiler (language version 2) for the build architecture
+ This is a dependency package providing the default D compiler.
+ Per policy, all packages that contain D sources must use this package
+ in their Build-Depends line.
+ .
+ This compiler supports D language version 2.
+ .
+ Tools used via this metapackage must be used without an architecture prefix.
+
 Package: gdc-multilib
 Priority: optional
 Architecture: @d_multilib_archs@
-Depends: cpp (>= ${version:cpp}), gcc-multilib (>= ${version:cpp}), gdc (>= ${version:gcc}), gdc-${pv:gdc}-multilib ${reqv:gdc}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc-multilib (>= ${version:cpp}), gdc (>= ${version:gcc}), gdc-${pv:gdc}-multilib ${reqv:gdc}, ${misc:Depends}
 Description: D compiler (language version 2) (multilib files)
  This compiler supports D language version 2.
  .
@@ -376,9 +682,32 @@ Description: Phobos D standard library
 Package: gm2
 Priority: optional
 Architecture: any
-Depends: cpp (>= ${version:cpp}), gcc (>= ${version:gcc}), gm2-${pv:gm2} ${reqv:gm2}, ${misc:Depends}
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (>= ${version:gcc}), gm2-${pv:gm2} ${reqv:gm2}, gm2${native:suffix} (= ${version:gm2}), ${misc:Depends}
 Description: GNU Modula-2 compiler, based on the GCC backend
  This is a dependency package providing the default GNU Modula-2 compiler.
+
+Package: gm2-for-host
+Priority: optional
+Architecture: any
+Multi-Arch: same
+Depends: cpp${native:suffix} (= ${version:cpp}), gm2${native:suffix} (= ${version:gm2}),
+  gcc-for-host (= ${version:gcc}), gm2-${pv:gm2}-for-host ${reqv:gm2}, ${misc:Depends}
+Description: GNU Modula-2 compiler for the host architecture, based on the GCC backend
+ This is a dependency package providing the default GNU Modula-2 compiler.
+ .
+ Tools used via this metapackage must be used with an architecture prefix.
+
+Package: gm2-for-build
+Priority: optional
+Architecture: all
+Multi-Arch: foreign
+Depends: gm2${native:suffix} (= ${version:gm2}),
+  gcc-for-build (= ${version:gcc}), gm2-${pv:gm2}-for-build ${reqv:gm2}, ${misc:Depends}
+Description: GNU Modula-2 compiler for the build architecture, based on the GCC backend
+ This is a dependency package providing the default GNU Modula-2 compiler.
+ .
+ Tools used via this metapackage must be used without an architecture prefix.
+
 
 #Package: gm2-multilib
 #Priority: optional
@@ -393,7 +722,7 @@ Description: GNU Modula-2 compiler, based on the GCC backend
 Package: gcc-offload-nvptx
 Priority: optional
 Architecture: amd64 ppc64el
-Depends: cpp (>= ${version:cpp}), gcc (>= ${version:cpp}),
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (>= ${version:cpp}),
   gcc-${pv:offl}-offload-nvptx ${reqv:offl}, ${misc:Depends}
 Description: GCC offloading compiler to NVPTX
  This package contains libgomp plugin for offloading to NVidia
@@ -405,7 +734,7 @@ Description: GCC offloading compiler to NVPTX
 Package: gcc-offload-amdgcn
 Priority: optional
 Architecture: amd64
-Depends: cpp (>= ${version:cpp}), gcc (>= ${version:cpp}),
+Depends: cpp (>= ${version:cpp}), cpp${native:suffix} (= ${version:cpp}), gcc (>= ${version:cpp}),
   gcc-${pv:offl}-offload-amdgcn ${reqv:offl}, ${misc:Depends}
 Description: GCC offloading compiler to AMD GCN
  This package contains libgomp plugin for offloading to AMD GCN

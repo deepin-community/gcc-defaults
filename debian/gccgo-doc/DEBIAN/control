@@ -1,0 +1,12 @@
+Package: gccgo-doc
+Source: gcc-defaults (1.210)
+Version: 4:14-20240120-0
+Architecture: amd64
+Maintainer: Debian GCC Maintainers <debian-gcc@lists.debian.org>
+Installed-Size: 17
+Depends: gccgo-14-doc (>= 14-20240120-0~)
+Suggests: gccgo (>= 4:14-20240120-0)
+Section: doc
+Priority: optional
+Description: Documentation for the GNU Go compiler
+ Documentation for the GNU Go compiler in info format (dependency package).

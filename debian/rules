@@ -187,9 +187,11 @@ REL_NO_1300	:= $(shell expr $(VMINOR) - 203)$(REL_EXT)
 REL_NO_1310	:= $(shell expr $(VMINOR) - 203)$(REL_EXT)
 REL_NO_1320	:= $(shell expr $(VMINOR) - 207)$(REL_EXT)
 
+REL_NO_1400	:= $(shell expr $(VMINOR) - 211)$(REL_EXT)
+
 # minimum required gcc-X.Y versions
 REQV_295	:= (>= 1:2.95.4-16)
-REQV_296	:= 
+REQV_296	:=
 REQV_30		:= (>= 1:3.0.4-12)
 REQV_32		:= (>= 1:3.2.3-1)
 REQV_33		:= (>= 1:3.3.6-1)
@@ -213,28 +215,28 @@ REQV_9		:= (>= 9.3.0-13~)
 REQV_10		:= (>= 10.4.0-1~)
 REQV_11		:= (>= 11.3.0-4~)
 REQV_12		:= (>= 12.3.0-1~)
-REQV_13		:= (>= 13.2.0-2~)
+REQV_13		:= (>= 13.2.0-11~)
+REQV_14		:= (>= 14-20240119-0~)
 
 # architecture dependent variables
 DEB_HOST_ARCH		:= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 DEB_HOST_GNU_TYPE	:= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-ifneq (,$(filter $(DEB_HOST_ARCH), i386 kfreebsd-i386 hurd-i386))
-  DEB_HOST_GNU_TYPE := $(subst i586,i686,$(DEB_HOST_GNU_TYPE))
-  i586_symlinks = yes
-endif
 DEB_HOST_MULTIARCH	:= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
-all_archs_mips = mips mipsel mipsn32 mipsn32el mips64 mips64el mipsr6 mipsr6el mipsn32r6 mipsn32r6el mips64r6 mips64r6el
-all_archs  = alpha arc amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 x32 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
+all_archs_mips = mips mipsel mipsn32 mipsn32el mips64 mips64el \
+	mipsr6 mipsr6el mipsn32r6 mipsn32r6el mips64r6 mips64r6el
+all_archs  = alpha arc amd64 armel armhf arm64 hppa i386 ia64 m68k or1k \
+	loong64 powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 x32 \
+	hurd-amd64 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
+	$(all_archs_mips)
+
+gcc13_archs =
+gcc13_archs  = alpha arc amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 x32 hurd-amd64 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
 	     $(all_archs_mips)
 
-gcc12_archs =
-gcc13_archs  = alpha arc amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 x32 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
+gnat13_archs  =
+gnat14_archs  = alpha amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el s390 s390x sh4 sparc sparc64 x32 hurd-amd64 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
 	     $(all_archs_mips)
-
-gnat_archs  = alpha amd64 armel armhf arm64 hppa i386 ia64 m68k or1k powerpc ppc64 ppc64el s390 s390x sh4 sparc sparc64 x32 hurd-i386 kfreebsd-amd64 kfreebsd-i386 \
-	     $(all_archs_mips)
-gnat9_archs  =
 
 # CV_XXX is the complete version number, including the release, without epoch
 CV_CPP		:= 13.2.0-$(REL_NO_1320)
@@ -254,26 +256,26 @@ $(foreach a, $(all_archs), \
   $(foreach v, CV_CPP CV_GCC CV_GPP CV_GOBJC CV_GOBJCXX CV_GFORT CV_GGO CV_GNAT CV_GDC CV_GM2 CV_BRIG CV_OFFL, \
     $(eval $(v)_$(a) = $(call $(v)))))
 
-ifneq (,$(filter $(DEB_HOST_ARCH), $(gcc12_archs)))
-  CV_CPP		:= 12.3.0-$(REL_NO_1230)
-  CV_GCC		:= 12.3.0-$(REL_NO_1230)
-  CV_GPP		:= 12.3.0-$(REL_NO_1230)
-  CV_GOBJC		:= 12.3.0-$(REL_NO_1230)
-  CV_GOBJCXX		:= 12.3.0-$(REL_NO_1230)
-  CV_GFORT		:= 12.3.0-$(REL_NO_1230)
-  CV_GGO		:= 12.3.0-$(REL_NO_1230)
-  CV_GDC		:= 12.3.0-$(REL_NO_1230)
-  CV_GM2		:= 12.3.0-$(REL_NO_1230)
-  CV_BRIG		:= 12.3.0-$(REL_NO_1230)
-  CV_OFFL		:= 12.3.0-$(REL_NO_1230)
-  $(foreach a, $(gcc12_archs), \
+ifneq (,$(filter $(DEB_HOST_ARCH), $(gcc13_archs)))
+  CV_CPP		:= 13.2.0-$(REL_NO_1320)
+  CV_GCC		:= 13.2.0-$(REL_NO_1320)
+  CV_GPP		:= 13.2.0-$(REL_NO_1320)
+  CV_GOBJC		:= 13.2.0-$(REL_NO_1320)
+  CV_GOBJCXX		:= 13.2.0-$(REL_NO_1320)
+  CV_GFORT		:= 13.2.0-$(REL_NO_1320)
+  CV_GGO		:= 13.2.0-$(REL_NO_1320)
+  CV_GDC		:= 13.2.0-$(REL_NO_1320)
+  CV_GM2		:= 13.2.0-$(REL_NO_1320)
+  CV_BRIG		:= 13.2.0-$(REL_NO_1320)
+  CV_OFFL		:= 13.2.0-$(REL_NO_1320)
+  $(foreach a, $(gcc13_archs), \
     $(foreach v, CV_CPP CV_GCC CV_GPP CV_GOBJC CV_GOBJCXX CV_GFORT CV_GGO CV_GDC CV_GM2 CV_BRIG CV_OFFL, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
 
-ifneq (,$(filter $(DEB_HOST_ARCH), $(gnat12_archs)))
-  CV_GNAT		:= 12.3.0-$(REL_NO_1230)
-  $(foreach a, $(gnat11_archs), \
+ifneq (,$(filter $(DEB_HOST_ARCH), $(gnat13_archs)))
+  CV_GNAT		:= 13.2.0-$(REL_NO_1320)
+  $(foreach a, $(gnat13_archs), \
     $(foreach v, CV_GNAT, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
@@ -294,27 +296,27 @@ $(foreach a, $(all_archs), \
   $(foreach v, REQV_CPP REQV_GCC REQV_GPP REQV_GOBJC REQV_GOBJCXX REQV_GFORT REQV_GGO REQV_GNAT REQV_GDC REQV_GM2 REQV_BRIG REQV_OFFL, \
     $(eval $(v)_$(a) = $(call $(v)))))
 
-ifneq (,$(filter $(DEB_HOST_ARCH),$(gcc12_archs)))
-  REQV_CPP	= $(REQV_12)
-  REQV_GCC	= $(REQV_12)
-  REQV_GPP	= $(REQV_12)
-  REQV_GOBJC	= $(REQV_12)
-  REQV_GOBJCXX	= $(REQV_12)
-  REQV_GFORT	= $(REQV_12)
-  REQV_GGO	= $(REQV_12)
-  REQV_GNAT	= $(REQV_12)
-  REQV_GDC	= $(REQV_12)
-  REQV_GM2	= $(REQV_12)
-  REQV_BRIG	= $(REQV_12)
-  REQV_OFFL	= $(REQV_12)
-  $(foreach a, $(gcc12_archs), \
+ifneq (,$(filter $(DEB_HOST_ARCH),$(gcc13_archs)))
+  REQV_CPP	= $(REQV_13)
+  REQV_GCC	= $(REQV_13)
+  REQV_GPP	= $(REQV_13)
+  REQV_GOBJC	= $(REQV_13)
+  REQV_GOBJCXX	= $(REQV_13)
+  REQV_GFORT	= $(REQV_13)
+  REQV_GGO	= $(REQV_13)
+  REQV_GNAT	= $(REQV_13)
+  REQV_GDC	= $(REQV_13)
+  REQV_GM2	= $(REQV_13)
+  REQV_BRIG	= $(REQV_13)
+  REQV_OFFL	= $(REQV_13)
+  $(foreach a, $(gcc13_archs), \
     $(foreach v, REQV_CPP REQV_GCC REQV_GPP REQV_GOBJC REQV_GOBJCXX REQV_GFORT REQV_GGO REQV_GDC REQV_GM2 REQV_BRIG REQV_OFFL, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
 
-ifneq (,$(filter $(DEB_HOST_ARCH),$(gnat12_archs)))
-  REQV_GNAT	= $(REQV_12)
-  $(foreach a, $(gnat12_archs), \
+ifneq (,$(filter $(DEB_HOST_ARCH),$(gnat13_archs)))
+  REQV_GNAT	= $(REQV_13)
+  $(foreach a, $(gnat13_archs), \
     $(foreach v, REQV_GNAT, \
       $(eval $(v)_$(a) = $(call $(v)))))
 endif
@@ -348,7 +350,7 @@ d_multilib_archs = $(filter $(d_archs), $(filter-out armel sparc64, $(multilib_a
 ada_archs = alpha amd64 arm64 armel armhf hppa i386 ia64 m68k \
 	$(all_archs_mips) \
 	powerpc ppc64 ppc64el riscv64 s390 s390x sh4 sparc sparc64 \
-	kfreebsd-amd64 kfreebsd-i386 hurd-i386
+	kfreebsd-amd64 kfreebsd-i386 hurd-amd64 hurd-i386
 
 nvptx_archs = amd64 ppc64el
 amdgcn_archs = amd64
@@ -361,68 +363,43 @@ m2_archs = alpha arc amd64 arm64 armel armhf i386 ia64 \
 
 mipsen_archs = amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
 
-HOST_ARCHS_alpha = amd64 arm64 i386 ppc64el x32
-HOST_ARCHS_arc = amd64 arm64 i386 ppc64el x32
-HOST_ARCHS_amd64 = arm64 i386 ppc64el x32
-HOST_ARCHS_armhf = amd64 i386 x32 arm64 ppc64el
-HOST_ARCHS_armel = amd64 i386 x32 arm64 ppc64el
-HOST_ARCHS_arm64 = amd64 i386 x32 ppc64el
-HOST_ARCHS_hppa = amd64 arm64 i386 ppc64el x32
-HOST_ARCHS_i386 = amd64 arm64 ppc64el x32
-HOST_ARCHS_m68k = amd64 arm64 i386 ppc64el x32
-HOST_ARCHS_powerpc = amd64 arm64 i386 x32 ppc64el
-HOST_ARCHS_ppc64 = amd64 i386 x32 ppc64el
-HOST_ARCHS_ppc64el = amd64 i386 x32 ppc64 arm64
-HOST_ARCHS_riscv64 = amd64 i386 x32 arm64 ppc64el
-HOST_ARCHS_s390x = amd64 i386 x32 arm64 ppc64el
-HOST_ARCHS_sh4 = amd64 arm64 i386 ppc64el x32
-HOST_ARCHS_sparc64 = amd64 arm64 i386 ppc64el x32
-HOST_ARCHS_x32 = amd64 arm64 i386 ppc64el
-$(foreach a, $(all_archs_mips), \
-  $(eval HOST_ARCHS_$(a) = $(filter-out $(a), $(mipsen_archs))) \
-)
+ifeq ($(SOURCE),gcc-defaults)
+  HOST_ARCHS_amd64 = arm64 i386 ppc64el x32 s390x
+  HOST_ARCHS_arm64 = amd64 i386 x32 ppc64el s390x
+  HOST_ARCHS_armhf = amd64 i386 x32 arm64 ppc64el s390x
+  HOST_ARCHS_i386 = amd64 arm64 ppc64el x32 s390x
+  ifeq ($(vendor),Ubuntu)
+    HOST_ARCHS_powerpc = amd64 arm64 i386 x32 ppc64el s390x
+  endif
+  HOST_ARCHS_ppc64el = amd64 i386 x32 ppc64 arm64 s390x
+  HOST_ARCHS_riscv64 = amd64 i386 x32 arm64 ppc64el s390x
+  HOST_ARCHS_s390x = amd64 i386 x32 arm64 ppc64el
+else ifeq ($(SOURCE),gcc-defaults-ports)
+  HOST_ARCHS_alpha = amd64 arm64 i386 ppc64el x32
+  HOST_ARCHS_arc = amd64 arm64 i386 ppc64el x32
+  HOST_ARCHS_armel = amd64 i386 x32 arm64 ppc64el
+  HOST_ARCHS_hppa = amd64 arm64 i386 ppc64el x32
+  HOST_ARCHS_m68k = amd64 arm64 i386 ppc64el x32
+  ifneq ($(vendor),Ubuntu)
+    HOST_ARCHS_powerpc = amd64 arm64 i386 x32 ppc64el s390x
+  endif
+  HOST_ARCHS_ppc64 = amd64 i386 x32 ppc64el s390x
+  HOST_ARCHS_sh4 = amd64 arm64 i386 ppc64el x32
+  HOST_ARCHS_sparc64 = amd64 arm64 i386 ppc64el x32
+  HOST_ARCHS_x32 = amd64 arm64 i386 ppc64el
+else ifeq ($(SOURCE),gcc-defaults-mipsen)
+  $(foreach a, $(all_archs_mips), \
+    $(eval HOST_ARCHS_$(a) = $(filter-out $(a), $(mipsen_archs))) \
+  )
+else
+  $(error Unknown source package $(SOURCE))
+endif
 
 ifeq (,$(CROSS_ARCHS))
-  ifeq ($(SOURCE),gcc-defaults)
-    ifneq (,$(filter $(DEB_HOST_ARCH),amd64 i386 x32))
-      CROSS_ARCHS = s390x ppc64el arm64 armhf armel riscv64 \
-	$(if $(filter $(vendor), Ubuntu), powerpc) \
-        $(if $(filter $(DEB_HOST_ARCH), i386 x32), amd64) \
-        $(if $(filter $(DEB_HOST_ARCH), amd64 x32), i386)
-    else ifeq ($(DEB_HOST_ARCH),arm64)
-      CROSS_ARCHS = amd64 armel armhf i386 ppc64el riscv64 s390x \
-	$(if $(filter $(vendor), Ubuntu), powerpc)
-    else ifeq ($(DEB_HOST_ARCH),ppc64)
-      CROSS_ARCHS = ppc64el
-    else ifeq ($(DEB_HOST_ARCH),ppc64el)
-      CROSS_ARCHS = amd64 i386 $(if $(filter $(vendor), Ubuntu), powerpc) \
-	armel armhf arm64 riscv64 s390x
-    else
-      CROSS_ARCHS =
-    endif
-  else ifeq ($(SOURCE),gcc-defaults-ports)
-    ifneq (,$(filter $(DEB_HOST_ARCH),amd64 i386 x32))
-      CROSS_ARCHS ?= alpha arc hppa m68k ppc64 sh4 sparc64 \
-		$(if $(filter $(vendor), Ubuntu),, powerpc) \
-		$(if $(filter $(DEB_HOST_ARCH), amd64 i386), x32)
-    else ifeq ($(DEB_HOST_ARCH),arm64)
-      CROSS_ARCHS ?= alpha arc hppa m68k sh4 sparc64 x32 \
-	       $(if $(filter $(vendor), Ubuntu),, powerpc)
-    else ifeq ($(DEB_HOST_ARCH),ppc64el)
-      CROSS_ARCHS ?= alpha arc hppa m68k sh4 sparc64 x32 \
-		$(if $(filter $(vendor), Ubuntu),, powerpc)
-    else
-      CROSS_ARCHS =
-    endif
-  else ifeq ($(SOURCE),gcc-defaults-mipsen)
-    ifneq (,$(filter $(DEB_HOST_ARCH),$(mipsen_archs)))
-      CROSS_ARCHS  ?= $(filter-out $(DEB_HOST_ARCH) mipsn32 mipsn32el mipsn32r6 mipsn32r6el, $(all_archs_mips))
-    else
-      CROSS_ARCHS =
-    endif
-  else
-    $(error Unknown source package $(SOURCE))
-  endif
+  CROSS_ARCHS = \
+    $(foreach a,$(all_archs), \
+      $(if $(filter $(DEB_HOST_ARCH),$(HOST_ARCHS_$(a))),$(a)) \
+    )
 endif
 
 ifeq ($(SOURCE),gcc-defaults)
@@ -432,15 +409,22 @@ ifneq (,$(CROSS_ARCHS))
   with_cross  = yes
 endif
 
+NATIVE_SUFFIX   = -$(subst _,-,$(DEB_HOST_GNU_TYPE))
+
 CROSS_ARCH	= $(subst .,,$(suffix $@))
-_gnu_type	= $(shell dpkg-architecture -a$(1) -qDEB_HOST_GNU_TYPE -f)
+_gnu_type       = $(or $(value _gnu_type_cache_$(1)),$(eval _gnu_type_cache_$(1) := $(shell dpkg-architecture -a$(1) -f -qDEB_HOST_GNU_TYPE))$(value _gnu_type_cache_$(1)))
 CROSS_GNU_TYPE	= $(call _gnu_type,${CROSS_ARCH})
 CROSS_PKG_GNU_TYPE = $(subst _,-,$(call _gnu_type,${CROSS_ARCH}))
+
+with_gfdl_docs := no
+ifeq ($(distribution),Ubuntu)
+  with_gfdl_docs := yes
+endif
 
 all_packages    :=
 ifeq ($(with_native),yes)
   # FIXME: not all packages ...
-  all_packages	:= cpp gcc g++ gfortran gobjc gobjc++ gdc gccgo libgphobos-dev
+  all_packages	:= $(foreach p,cpp gcc g++ gfortran gobjc gobjc++ gdc gccgo,$(p) $(p)$(NATIVE_SUFFIX) $(p)-for-host $(p)-for-build) g++-multilib gfortran-multilib gobjc-multilib gobjc++-multilib gdc-multilib gccgo-multilib libgphobos-dev
   ifneq (,$(filter $(DEB_HOST_ARCH), $(hppa64_archs)))
     all_packages += gcc-hppa64-linux-gnu
   endif
@@ -451,7 +435,13 @@ ifeq ($(with_native),yes)
     all_packages += gcc-offload-amdgcn
   endif
   ifneq (,$(filter $(DEB_HOST_ARCH), $(m2_archs)))
-    all_packages += gm2
+    all_packages += gm2 gm2$(NATIVE_SUFFIX) gm2-for-host gm2-for-build gm2-doc
+  endif
+  ifeq ($(with_gfdl_docs),yes)
+    all_packages += cpp-doc gcc-doc gfortran-doc
+    ifneq (,$(filter $(DEB_HOST_ARCH),$(go_archs)))
+      all_packages += gccgo-doc
+    endif
   endif
 endif
 no_packages	:=
@@ -466,23 +456,20 @@ endif
 
 ifneq (,$(filter $(DEB_HOST_ARCH), $(multilib_archs)))
   with_multilib = yes
+else
+  no_packages += g++-multilib gfortran-multilib gobjc-multilib gobjc++-multilib gdc-multilib
 endif
-ifneq (,$(filter $(DEB_HOST_ARCH), $(go_multilib_archs)))
-  with_go_multilib = yes
-endif
-
-with_gfdl_docs := no
-ifeq ($(distribution),Ubuntu)
-  with_gfdl_docs := yes
+ifeq (,$(filter $(DEB_HOST_ARCH), $(go_multilib_archs)))
+  no_packages += gccgo-multilib
 endif
 
 ifeq ($(with_native),yes)
   ifeq (,$(filter $(DEB_HOST_ARCH),$(go_archs)))
-    no_packages += gccgo gccgo-doc
+    no_packages += gccgo gccgo$(NATIVE_SUFFIX) gccgo-for-host gccgo-for-build gccgo-multilib gccgo-doc
   endif
 
   ifeq (,$(filter $(DEB_HOST_ARCH),$(d_archs)))
-    no_packages += gdc
+    no_packages += gdc gdc$(NATIVE_SUFFIX) gdc-for-host gdc-for-build
   endif
 
   ifeq (,$(filter $(DEB_HOST_ARCH),$(phobos_archs)))
@@ -490,7 +477,7 @@ ifeq ($(with_native),yes)
   endif
 
   ifeq (,$(filter $(DEB_HOST_ARCH),$(m2_archs)))
-    no_packages += gm2 gm2-doc
+    no_packages += gm2 gm2$(NATIVE_SUFFIX) gm2-for-host gm2-for-build gm2-doc
   endif
 
   ifeq (,$(filter $(DEB_HOST_ARCH),$(hppa64_archs)))
@@ -502,12 +489,12 @@ ifeq ($(with_native),yes)
   endif
 
   ifneq ($(with_gfdl_docs),yes)
-    no_packages := $(sort $(no_packages) cpp-doc gcc-doc gfortran-doc)
+    no_packages := $(sort $(no_packages) cpp-doc gcc-doc gfortran-doc gccgo-doc)
   endif
 
 endif
 
-ifeq ($(DEB_HOST_ARCH),hurd-i386)
+ifneq (,$(filter $(DEB_HOST_ARCH),hurd-i386 hurd-amd64))
     OS_NAME	:= Hurd
 endif
 
@@ -523,24 +510,27 @@ endif
 invalid_packages = \
 	gccgo-arc-linux-gnu \
 	gccgo-hppa-linux-gnu \
+	gccgo-loongarch64-linux-gnu \
 	gccgo-m68k-linux-gnu \
 	gccgo-sh4-linux-gnu \
 	gccgo-multilib-arm-linux-gnueabi \
 	gccgo-multilib-arm-linux-gnueabihf \
 	gdc-alpha-linux-gnu \
 	gdc-arc-linux-gnu \
+	gdc-loongarch64-linux-gnu \
 	gdc-m68k-linux-gnu \
 	gdc-sh4-linux-gnu \
 	gdc-sparc64-linux-gnu \
 	gdc-multilib-arm-linux-gnueabi \
 	gdc-multilib-sparc64-linux-gnu \
+	gm2-loongarch64-linux-gnu \
 	gm2-powerpc-linux-gnu \
 	gm2-powerpc64-linux-gnu \
 	gm2-sh4-linux-gnu \
 
 ifeq ($(with_cross),yes)
   cross_packages := $(filter-out $(invalid_packages) gcc-hppa64-linux-gnu, \
-			$(shell dh_listpackages -a | egrep -- '-gnu|-kfreebsd'))
+			$(shell dh_listpackages -a | grep -E -- '-gnu|-kfreebsd' | grep -v -- '$(NATIVE_SUFFIX)$$'))
   all_packages := $(all_packages) $(cross_packages)
 endif
 packages := $(filter-out $(no_packages), $(all_packages))
@@ -623,9 +613,9 @@ substvars-native:
 	  echo 'version:gfort=$(EPOCH):$(CV_GFORT)'; \
 	  echo 'version:ggo=$(EPOCH):$(CV_GGO)'; \
 	  echo 'version:gnat=$(EPOCH):$(CV_GNAT)'; \
-	  echo 'version:gdc=$(CV_GDC)'; \
-	  echo 'version:gm2=$(CV_GM2)'; \
-	  echo 'version:offl=$(CV_OFFL)'; \
+	  echo 'version:gdc=$(EPOCH):$(CV_GDC)'; \
+	  echo 'version:gm2=$(EPOCH):$(CV_GM2)'; \
+	  echo 'version:offl=$(EPOCH):$(CV_OFFL)'; \
 	  echo 'pv:cpp=$(PV_CPP)'; \
 	  echo 'pv:gcc=$(PV_GCC)'; \
 	  echo 'pv:gpp=$(PV_GPP)'; \
@@ -648,8 +638,8 @@ substvars-native:
 	  echo 'reqv:gdc=$(REQV_GDC)'; \
 	  echo 'reqv:gm2=$(REQV_GM2)'; \
 	  echo 'reqv:offl=$(REQV_OFFL)'; \
-	  echo 'gcc:triplet=gcc-$(subst _,-,$(DEB_HOST_GNU_TYPE)) (= $(EPOCH):$(CV_GCC))'; \
-	  echo 'gpp:triplet=g++-$(subst _,-,$(DEB_HOST_GNU_TYPE)) (= $(EPOCH):$(CV_GPP))'; \
+	  echo 'gcc$(NATIVE_SUFFIX):recommends=libc6-dev, libc-dev'; \
+	  echo 'native:suffix=$(NATIVE_SUFFIX)'; \
 	) > debian/substvars.native
 ifeq ($(with_multilib),yes)
 	( \
@@ -666,7 +656,7 @@ ifneq (,$(MOD_VER))
 	echo 'fortran:mod-version=$(MOD_VER)' >> debian/substvars.native
 endif
 ifneq (,$(filter $(DEB_HOST_ARCH),$(phobos_archs)))
-	echo 'dep:libgphobos=libgphobos-dev (= $${version:gdc})' >> debian/substvars.native
+	echo 'dep:libgphobos=libgphobos-dev (= $(CV_GDC))' >> debian/substvars.native
 endif
 
 substvars.%:
@@ -678,8 +668,8 @@ substvars.%:
 	  echo 'version:gobjcxx=$(EPOCH):$(CV_GOBJCXX_$(CROSS_ARCH))'; \
 	  echo 'version:gfort=$(EPOCH):$(CV_GFORT_$(CROSS_ARCH))'; \
 	  echo 'version:ggo=$(EPOCH):$(CV_GGO_$(CROSS_ARCH))'; \
-	  echo 'version:gdc=$(CV_GDC_$(CROSS_ARCH))'; \
-	  echo 'version:gm2=$(CV_GM2_$(CROSS_ARCH))'; \
+	  echo 'version:gdc=$(EPOCH):$(CV_GDC_$(CROSS_ARCH))'; \
+	  echo 'version:gm2=$(EPOCH):$(CV_GM2_$(CROSS_ARCH))'; \
 	  echo 'pv:cpp=$(PV_CPP_$(CROSS_ARCH))'; \
 	  echo 'pv:gcc=$(PV_GCC_$(CROSS_ARCH))'; \
 	  echo 'pv:gpp=$(PV_GPP_$(CROSS_ARCH))'; \
@@ -698,6 +688,7 @@ substvars.%:
 	  echo 'reqv:ggo=$(REQV_GGO_$(CROSS_ARCH))'; \
 	  echo 'reqv:gdc=$(REQV_GDC_$(CROSS_ARCH))'; \
 	  echo 'reqv:gm2=$(REQV_GM2_$(CROSS_ARCH))'; \
+	  echo 'gcc-$(subst _,-,$(call _gnu_type,$(CROSS_ARCH))):recommends=libc6-dev-$(CROSS_ARCH)-cross | libc-dev-$(CROSS_ARCH)-cross'; \
 	) > debian/substvars.$*
 	$(if $(filter $(CROSS_ARCH),$(multilib_archs)), \
 	  ( \
@@ -715,7 +706,7 @@ ifneq (,$(MOD_VER))
 	echo 'fortran:mod-version=$(MOD_VER)' >> debian/substvars.$*
 endif
 	$(if $(filter $(CROSS_ARCH),$(phobos_archs)), \
-	  echo 'dep:libgphobos=libgphobos-dev (= $${version:gdc})' >> debian/substvars.$* \
+	  echo 'dep:libgphobos=libgphobos-dev (= $(CV_GDC))' >> debian/substvars.$* \
 	)
 
 control:
@@ -742,28 +733,43 @@ endif
 ifeq ($(SOURCE),gcc-defaults-mipsen)
 	sed -i 's/^Uploaders: \(.*\)/Uploaders: \1, YunQiang Su <syq@debian.org>/g' debian/control
 endif
-ifeq ($(with_cross),yes)
 	: # FIXME: filter-out some gdc and gccgo multilib configs
-	$(foreach a, $(if $(filter gcc-defaults, $(SOURCE)),amd64) $(CROSS_ARCHS), \
+
+# this used to be ...
+#	$(foreach a, $(if $(filter gcc-defaults, $(SOURCE)),amd64) $(CROSS_ARCHS),
+# now looping over all_archs with the last sed filtering out archs not built
+# from this source (empty Architecture: attribute)
+
+	$(foreach a, $(all_archs), \
 	  sed \
 	    -e "s/CROSS_ARCH/$(a)/g" \
 	    -e 's/CROSS_GNU_TYPE/$(subst _,-,$(call _gnu_type,$(a)))/g' \
+	    -e 's/NATIVE_ARCH/$(if $(filter yes,$(with_native)),$(a))/' \
 	    -e 's/@host_archs@/$(HOST_ARCHS_$(a))/g' \
 	    debian/control.cross.in \
-	    $(if $(filter $(a),$(multilib_archs)), debian/control.cross-ml.in) \
-	    | awk '/^Package: gccgo-(arc|hppa|m68k|sh4)/ {skip=1} skip == 0 {print } /^$$/ && skip == 1 {skip=0}' \
-	    | awk '/^Package: gdc-(alpha|arc|m68k|sh4|sparc64)/ {skip=1} skip == 0 {print } /^$$/ && skip == 1 {skip=0}' \
+	    $(if $(and $(filter yes,$(with_cross)),$(filter $(a),$(multilib_archs))), debian/control.cross-ml.in) \
+	    | awk '/^Package: gccgo-(arc|hppa|loongarch64|m68k|sh4)/ {skip=1} skip == 0 {print } /^$$/ && skip == 1 {skip=0}' \
+	    | awk '/^Package: gdc-(alpha|arc|loongarch64|m68k|sh4|sparc64)/ {skip=1} skip == 0 {print } /^$$/ && skip == 1 {skip=0}' \
 	    | awk '/^Package: gdc-multilib-sparc64/ {skip=1} skip == 0 {print } /^$$/ && skip == 1 {skip=0}' \
-	    | awk '/^Package: gm2-(powerpc|powerpc64|sh4)-/ {skip=1} skip == 0 {print } /^$$/ && skip == 1 {skip=0}' \
+	    | awk '/^Package: gm2-(loongarch64|powerpc|powerpc64|sh4)-/ {skip=1} skip == 0 {print } /^$$/ && skip == 1 {skip=0}' \
+	    | sed '/./{H;$$!d};x;/\nArchitecture:\s*\n/d' \
 	    >> debian/control; \
 	)
-endif
 ifeq ($(SOURCE)-$(with_gfdl_docs),gcc-defaults-yes)
 	cat debian/control.doc >> debian/control
 endif
 ifeq ($(SOURCE),gcc-defaults)
 	cat debian/control.gm2-doc >> debian/control
 endif
+#	debian/remove-unbuilt debian/control debian/packages.invalid \
+#	  > debian/control.tmp
+#	mv debian/control.tmp debian/control
+
+# FIXME:
+# sed '/./{H;$$!d};x;/\nArchitecture:\s*\n/d' introduces empty lines, remove them
+	uniq debian/control > debian/control.tmp
+	sed -i 's/ *$$//' debian/control.tmp
+	mv debian/control.tmp debian/control
 
 build-arch: build
 build-indep: build-stamp
@@ -779,7 +785,7 @@ clean:
 	rm -rf build
 	rm -f debian/control.tmp*
 	rm -f debian/substvars.*
-	rm -f debian/gcc.postinst debian/g++.postinst debian/gfortran.postinst
+	rm -f debian/cpp.maintscript debian/gcc.postinst debian/g++.postinst debian/gdc.maintscript debian/gfortran.postinst
 	dh_clean
 
 pre-install: build substvars
@@ -797,21 +803,34 @@ ifeq ($(with_native),yes)
 
 	: # cpp
 	dh_installdirs -pcpp \
-		lib usr/bin \
-		usr/share/man/man1 usr/share/man/man7 usr/share/doc/cpp
+		usr/bin \
+		usr/share/man/man1 usr/share/man/man7
 	dh_link -pcpp \
 	  /usr/bin/cpp-$(PV_CPP) /usr/bin/cpp \
-	  /usr/bin/cpp-$(PV_CPP) /usr/bin/$(DEB_HOST_GNU_TYPE)-cpp
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/cpp
 
   ifeq ($(with_gfdl_docs),yes)
 	for i in gfdl.7 gpl.7 fsf-funding.7; do \
 	  cp -p $$i debian/cpp/usr/share/man/man7/$${i}gcc; \
 	done
 	dh_link -pcpp \
-	  /usr/share/man/man1/cpp-$(PV_CPP).1.gz /usr/share/man/man1/cpp.1.gz \
-	  /usr/share/man/man1/cpp-$(PV_CPP).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-cpp.1.gz
+	  /usr/share/man/man1/cpp-$(PV_CPP).1.gz /usr/share/man/man1/cpp.1.gz
+  endif
+	sed -e 's/@NATIVE_SUFFIX@/$(NATIVE_SUFFIX)/g' \
+		debian/cpp.maintscript.in > debian/cpp.maintscript
+
+	: # cpp-<triplet>
+	dh_installdirs -pcpp$(NATIVE_SUFFIX) \
+		usr/bin usr/share/doc/cpp$(NATIVE_SUFFIX)
+	dh_link -pcpp$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-cpp-$(PV_CPP) /usr/bin/$(DEB_HOST_GNU_TYPE)-cpp
+  ifeq ($(with_gfdl_docs),yes)
+	dh_link -pcpp$(NATIVE_SUFFIX) \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-cpp-$(PV_CPP).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-cpp.1.gz
+  endif
 
 	: # cpp-doc
+  ifeq ($(with_gfdl_docs),yes)
 	dh_installdirs -pcpp-doc \
 		usr/share/doc usr/share/info
 	dh_link -pcpp-doc \
@@ -824,34 +843,23 @@ ifeq ($(with_native),yes)
 	: # gcc
 	dh_installdirs -pgcc usr/bin usr/share/man/man1 usr/share/doc
 	dh_link -pgcc \
-	  /usr/share/doc/cpp /usr/share/doc/gcc \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gcc \
 	  /usr/bin/gcc-$(PV_GCC) /usr/bin/gcc \
-	  /usr/bin/gcc-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc \
 	  /usr/bin/gcov-$(PV_GCC) /usr/bin/gcov \
-	  /usr/bin/gcov-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov \
 	  /usr/bin/lto-dump-$(PV_GCC) /usr/bin/lto-dump \
-	  /usr/bin/lto-dump-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-lto-dump \
 	  /usr/libexec/gcc/$(DEB_HOST_GNU_TYPE)/$(PV_GCC)/liblto_plugin.so /usr/lib/bfd-plugins/liblto_plugin.so \
-	  /usr/share/doc/gcc-$(PV_GCC)/README.Bugs /usr/share/doc/cpp/README.Bugs \
+	  /usr/share/doc/gcc-$(PV_GCC)/README.Bugs /usr/share/doc/cpp$(NATIVE_SUFFIX)/README.Bugs \
 	  $(if $(filter $(DEB_HOST_ARCH), $(gcc49_archs)),, \
 	    /usr/bin/gcov-dump-$(PV_GCC) /usr/bin/gcov-dump \
-	    /usr/bin/gcov-dump-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov-dump \
 	    /usr/bin/gcov-tool-$(PV_GCC) /usr/bin/gcov-tool \
-	    /usr/bin/gcov-tool-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov-tool \
 	  )
 	dh_link -pgcc \
 	  /usr/bin/gcc-ar-$(PV_GCC) /usr/bin/gcc-ar \
 	  /usr/bin/gcc-nm-$(PV_GCC) /usr/bin/gcc-nm \
 	  /usr/bin/gcc-ranlib-$(PV_GCC) /usr/bin/gcc-ranlib \
-	  /usr/bin/gcc-ar-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-ar \
-	  /usr/bin/gcc-nm-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-nm \
-	  /usr/bin/gcc-ranlib-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-ranlib \
 	  /usr/share/man/man1/gcc-ar-$(PV_GCC).1.gz /usr/share/man/man1/gcc-ar.1.gz \
-	  /usr/share/man/man1/gcc-ar-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-ar.1.gz \
 	  /usr/share/man/man1/gcc-nm-$(PV_GCC).1.gz /usr/share/man/man1/gcc-nm.1.gz \
-	  /usr/share/man/man1/gcc-nm-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-nm.1.gz \
-	  /usr/share/man/man1/gcc-ranlib-$(PV_GCC).1.gz /usr/share/man/man1/gcc-ranlib.1.gz \
-	  /usr/share/man/man1/gcc-ranlib-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-ranlib.1.gz
+	  /usr/share/man/man1/gcc-ranlib-$(PV_GCC).1.gz /usr/share/man/man1/gcc-ranlib.1.gz
 	install -m 755 -p c89 debian/gcc/usr/bin/c89-gcc
 	install -m 644 -p c89.1 debian/gcc/usr/share/man/man1/c89-gcc.1
 	install -m 755 -p c99 debian/gcc/usr/bin/c99-gcc
@@ -864,16 +872,41 @@ ifeq ($(with_native),yes)
   ifeq ($(with_gfdl_docs),yes)
 	dh_link -pgcc \
 	  /usr/share/man/man1/gcc-$(PV_GCC).1.gz /usr/share/man/man1/gcc.1.gz \
-	  /usr/share/man/man1/gcc-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc.1.gz \
 	  /usr/share/man/man1/gcov-$(PV_GCC).1.gz /usr/share/man/man1/gcov.1.gz \
-	  /usr/share/man/man1/gcov-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov.1.gz \
-	  /usr/share/man/man1/lto-dump-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-lto-dump.1.gz \
 	  $(if $(filter $(DEB_HOST_ARCH), $(gcc49_archs)),, \
 	    /usr/share/man/man1/gcov-tool-$(PV_GCC).1.gz /usr/share/man/man1/gcov-tool.1.gz \
-	    /usr/share/man/man1/gcov-tool-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov-tool.1.gz \
 	    /usr/share/man/man1/gcov-dump-$(PV_GCC).1.gz /usr/share/man/man1/gcov-dump.1.gz \
-	    /usr/share/man/man1/gcov-dump-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov-dump.1.gz \
 	  )
+  endif
+
+	: # gcc-triplet
+	dh_installdirs -pgcc$(NATIVE_SUFFIX) usr/bin usr/share/man/man1 usr/share/doc
+	dh_link -pgcc$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-lto-dump-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-lto-dump \
+	  $(if $(filter $(DEB_HOST_ARCH), $(gcc49_archs)),, \
+	    /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov-dump-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov-dump \
+	    /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov-tool-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcov-tool \
+	  )
+	dh_link -pgcc$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-ar-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-ar \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-nm-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-nm \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-ranlib-$(PV_GCC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gcc-ranlib \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-ar-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-ar.1.gz \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-nm-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-nm.1.gz \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-ranlib-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-ranlib.1.gz
+
+  ifeq ($(with_gfdl_docs),yes)
+	dh_link -pgcc$(NATIVE_SUFFIX) \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcc.1.gz \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov.1.gz \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-lto-dump-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-lto-dump.1.gz \
+	  $(if $(filter $(DEB_HOST_ARCH), $(gcc49_archs)),, \
+	    /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov-tool-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov-tool.1.gz \
+	    /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov-dump-$(PV_GCC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gcov-dump.1.gz \
+	  )
+
 	: # gcc-doc
 	dh_installdirs -pgcc-doc \
 		usr/share/doc usr/share/info
@@ -883,7 +916,7 @@ ifeq ($(with_native),yes)
 	  /usr/share/doc/gcc-$(PV_GCC)-base/libgomp.html /usr/share/doc/gcc-doc/libgomp.html \
 	  /usr/share/info/gcc-$(PV_GCC).info.gz /usr/share/info/gcc.info.gz \
 	  /usr/share/info/gccint-$(PV_GCC).info.gz /usr/share/info/gccint.info.gz \
-	  /usr/share/info/libgomp-$(PV_GCC).info.gz /usr/share/info/libgomp.info.gz 
+	  /usr/share/info/libgomp-$(PV_GCC).info.gz /usr/share/info/libgomp.info.gz
   endif
 
 ifeq ($(with_multiarch_lib),yes)
@@ -900,14 +933,13 @@ endif
 ifneq (,$(filter gdc, $(packages)))
 	: # gdc
 	dh_installdirs -pgdc
-	dh_installdocs -pgdc debian/README.Debian
+	sed -e 's/@NATIVE_SUFFIX@/$(NATIVE_SUFFIX)/g' \
+		debian/gdc.maintscript.in > debian/gdc.maintscript
 
 	dh_link -pgdc \
+	  /usr/share/doc/gdc$(NATIVE_SUFFIX) /usr/share/doc/gdc \
 	  /usr/bin/gdc-$(PV_GDC) /usr/bin/gdc \
-	  /usr/bin/gdc-$(PV_GDC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gdc
-	dh_link -pgdc \
-	  /usr/share/man/man1/gdc-$(PV_GDC).1.gz /usr/share/man/man1/gdc.1.gz \
-	  /usr/share/man/man1/gdc-$(PV_GDC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gdc.1.gz
+	  /usr/share/man/man1/gdc-$(PV_GDC).1.gz /usr/share/man/man1/gdc.1.gz
 
   ifneq (,$(filter libgphobos-dev, $(packages)))
 	: # gdc
@@ -916,17 +948,28 @@ ifneq (,$(filter gdc, $(packages)))
   endif
 endif
 
+ifneq (,$(filter gdc$(NATIVE_SUFFIX), $(packages)))
+	: # gdc-triplet
+	dh_installdirs -pgdc$(NATIVE_SUFFIX)
+	dh_installdocs -pgdc$(NATIVE_SUFFIX) debian/README.Debian
+	dh_link -pgdc$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gdc-$(PV_GDC) /usr/bin/$(DEB_HOST_GNU_TYPE)-gdc \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gdc-$(PV_GDC).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gdc.1.gz
+endif
+
+ifneq (,$(filter gdc-for-host, $(packages)))
+	: # gdc-for-host
+	dh_installdirs -pgdc-for-host
+	dh_link -pgdc-for-host /usr/share/doc/gdc$(NATIVE_SUFFIX) /usr/share/doc/gdc-for-host
+endif
+
 ifneq (,$(filter gm2, $(packages)))
 	: # gm2
 	dh_installdirs -pgm2
-	dh_installdocs -pgm2 debian/README.Debian
 
 	dh_link -pgm2 \
 	  /usr/bin/gm2-$(PV_GM2) /usr/bin/gm2 \
-	  /usr/bin/gm2-$(PV_GM2) /usr/bin/$(DEB_HOST_GNU_TYPE)-gm2
-	dh_link -pgm2 \
-	  /usr/share/man/man1/gm2-$(PV_GM2).1.gz /usr/share/man/man1/gm2.1.gz \
-	  /usr/share/man/man1/gm2-$(PV_GM2).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gm2.1.gz
+	  /usr/share/man/man1/gm2-$(PV_GM2).1.gz /usr/share/man/man1/gm2.1.gz
 	: # gm2-doc
 	dh_installdirs -pgm2-doc \
 		usr/share/doc usr/share/info
@@ -935,47 +978,86 @@ ifneq (,$(filter gm2, $(packages)))
 	  /usr/share/info/gm2-$(PV_GM2).info.gz /usr/share/info/gm2.info.gz
 endif
 
+ifneq (,$(filter gm2$(NATIVE_SUFFIX), $(packages)))
+	: # gm2-triplet
+	dh_installdirs -pgm2$(NATIVE_SUFFIX)
+	dh_installdocs -pgm2$(NATIVE_SUFFIX) debian/README.Debian
+	dh_link -pgm2$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gm2-$(PV_GM2) /usr/bin/$(DEB_HOST_GNU_TYPE)-gm2 \
+	  /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gm2-$(PV_GM2).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gm2.1.gz
+endif
+
 ifneq (,$(filter gobjc, $(packages)))
 	: # gobjc
 	dh_installdirs -pgobjc
 	dh_link -pgobjc \
-	  /usr/share/doc/cpp /usr/share/doc/gobjc
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gobjc
+endif
+
+ifneq (,$(filter gobjc$(NATIVE_SUFFIX), $(packages)))
+	: # gobjc-triplet
+	dh_installdirs -pgobjc$(NATIVE_SUFFIX)
 endif
 
 ifneq (,$(filter gobjc++, $(packages)))
 	: # gobjc++
 	dh_installdirs -pgobjc++
 	dh_link -pgobjc++ \
-	  /usr/share/doc/cpp /usr/share/doc/gobjc++
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gobjc++
+endif
+
+ifneq (,$(filter gobjc++$(NATIVE_SUFFIX), $(packages)))
+	: # gobjc++-triplet
+	dh_installdirs -pgobjc++$(NATIVE_SUFFIX)
+	dh_link -pgobjc++$(NATIVE_SUFFIX) \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gobjc++$(NATIVE_SUFFIX)
 endif
 
 ifneq (,$(filter g++, $(packages)))
 	: # g++
 	dh_installdirs -pg++
 	dh_link -pg++ \
-	  /usr/share/doc/cpp /usr/share/doc/g++ \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/g++ \
 	  /usr/bin/g++-$(PV_GPP) /usr/bin/g++ \
-	  /usr/bin/g++-$(PV_GPP) /usr/bin/$(DEB_HOST_GNU_TYPE)-g++ \
 	  $(if $(filter yes, $(with_gfdl_docs)), \
 	    /usr/share/man/man1/g++-$(PV_GPP).1.gz /usr/share/man/man1/g++.1.gz \
-	    /usr/share/man/man1/g++-$(PV_GPP).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-g++.1.gz \
 	  )
 	sed -e 's/@GFDL@/$(if $(filter-out yes,$(with_gfdl_docs)),\#)/g' \
 		debian/g++.postinst.in > debian/g++.postinst
+endif
+
+ifneq (,$(filter g++$(NATIVE_SUFFIX), $(packages)))
+	: # g++-triplet
+	dh_installdirs -pg++$(NATIVE_SUFFIX)
+	dh_link -pg++$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-g++-$(PV_GPP) /usr/bin/$(DEB_HOST_GNU_TYPE)-g++ \
+	  $(if $(filter yes, $(with_gfdl_docs)), \
+	    /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-g++-$(PV_GPP).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-g++.1.gz \
+	  )
 endif
 
 ifneq (,$(filter gfortran, $(packages)))
 	: # gfortran
 	dh_installdirs -pgfortran usr/bin /usr/share/man/man1 usr/share/doc
 	dh_link -pgfortran \
-	  /usr/share/doc/cpp /usr/share/doc/gfortran \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gfortran \
 	  /usr/bin/gfortran-$(PV_GFORT) /usr/bin/gfortran \
-	  /usr/bin/gfortran-$(PV_GFORT) /usr/bin/$(DEB_HOST_GNU_TYPE)-gfortran \
 	  $(if $(filter yes, $(with_gfdl_docs)), \
 	    /usr/share/man/man1/gfortran-$(PV_GFORT).1.gz /usr/share/man/man1/gfortran.1.gz \
-	    /usr/share/man/man1/gfortran-$(PV_GFORT).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gfortran.1.gz \
 	  )
+endif
 
+ifneq (,$(filter gfortran$(NATIVE_SUFFIX), $(packages)))
+	: # gfortran-triplet
+	dh_installdirs -pgfortran$(NATIVE_SUFFIX) usr/bin /usr/share/man/man1 usr/share/doc
+	dh_link -pgfortran$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gfortran-$(PV_GFORT) /usr/bin/$(DEB_HOST_GNU_TYPE)-gfortran \
+	  $(if $(filter yes, $(with_gfdl_docs)), \
+	    /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gfortran-$(PV_GFORT).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gfortran.1.gz \
+	  )
+endif
+
+ifneq (,$(filter gfortran-doc, $(packages)))
   ifeq ($(with_gfdl_docs),yes)
 	: # gfortran-doc
 	dh_installdirs -pgfortran-doc \
@@ -993,12 +1075,10 @@ ifneq (,$(filter gccgo, $(packages)))
 	: # Go
 	dh_installdirs -pgccgo usr/share/doc
 	dh_link -pgccgo \
-	  /usr/share/doc/cpp /usr/share/doc/gccgo \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gccgo \
 	  /usr/bin/gccgo-$(PV_GGO) /usr/bin/gccgo \
-	  /usr/bin/gccgo-$(PV_GGO) /usr/bin/$(DEB_HOST_GNU_TYPE)-gccgo \
 	  $(if $(filter yes, $(with_gfdl_docs)), \
 	    /usr/share/man/man1/gccgo-$(PV_GGO).1.gz /usr/share/man/man1/gccgo.1.gz \
-	    /usr/share/man/man1/gccgo-$(PV_GGO).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gccgo.1.gz \
 	  )
 
   ifeq ($(with_gfdl_docs),yes)
@@ -1011,11 +1091,22 @@ ifneq (,$(filter gccgo, $(packages)))
   endif
 endif
 
+ifneq (,$(filter gccgo$(NATIVE_SUFFIX), $(packages)))
+	: # gccgo-triplet
+	dh_installdirs -pgccgo$(NATIVE_SUFFIX) usr/share/doc
+	dh_link -pgccgo$(NATIVE_SUFFIX) \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gccgo$(NATIVE_SUFFIX) \
+	  /usr/bin/$(DEB_HOST_GNU_TYPE)-gccgo-$(PV_GGO) /usr/bin/$(DEB_HOST_GNU_TYPE)-gccgo \
+	  $(if $(filter yes, $(with_gfdl_docs)), \
+	    /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gccgo-$(PV_GGO).1.gz /usr/share/man/man1/$(DEB_HOST_GNU_TYPE)-gccgo.1.gz \
+	  )
+endif
+
 ifneq (,$(filter gcc-offload-nvptx, $(packages)))
 	: # gcc-offload-nvptx
 	dh_installdirs -pgcc-offload-nvptx
 	dh_link -pgcc-offload-nvptx \
-	  /usr/share/doc/cpp /usr/share/doc/gcc-offload-nvptx \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gcc-offload-nvptx \
 	  /usr/bin/$(DEB_HOST_GNU_TYPE)-accel-nvptx-none-gcc-$(PV_OFFL) \
 	    /usr/bin/$(DEB_HOST_GNU_TYPE)-accel-nvptx-none-gcc \
 	  $(if $(filter yes, $(with_gfdl_docs)), \
@@ -1028,7 +1119,7 @@ ifneq (,$(filter gcc-offload-amdgcn, $(packages)))
 	: # gcc-offload-nvptx
 	dh_installdirs -pgcc-offload-amdgcn
 	dh_link -pgcc-offload-amdgcn \
-	  /usr/share/doc/cpp /usr/share/doc/gcc-offload-amdgcn \
+	  /usr/share/doc/cpp$(NATIVE_SUFFIX) /usr/share/doc/gcc-offload-amdgcn \
 	  /usr/bin/$(DEB_HOST_GNU_TYPE)-accel-amdgcn-amdhsa-gcc-$(PV_OFFL) \
 	    /usr/bin/$(DEB_HOST_GNU_TYPE)-accel-amdgcn-amdhsa-gcc \
 	  $(if $(filter yes, $(with_gfdl_docs)), \
@@ -1052,16 +1143,6 @@ ifneq (,$(filter gcc-hppa64-linux-gnu, $(packages)))
 	    /usr/share/man/man1/hppa64-linux-gnu-gcc-$(PV_GCC).1.gz /usr/share/man/man1/hppa64-linux-gnu-gcc.1.gz \
 	  )
 endif
-
-  ifeq ($(i586_symlinks),yes)
-	cd debian; \
-	for x in $$(find $(filter-out $(cross_packages), $(all_packages)) -type l -name 'i686-*'); do \
-	  link=$$(echo $$x | sed 's/i686-/i586-/'); \
-	  tgt=$$(basename $$x); \
-	  echo "Adding symlink: $$link -> $$tgt"; \
-	  rm -f $$link; cp -a $$x $$link; \
-	done
-  endif
 endif # with_native
 
 install.%: pre-install
@@ -1086,7 +1167,6 @@ install.%: pre-install
 	  /usr/bin/$(CROSS_GNU_TYPE)-gcc-$(PV_GCC_$(CROSS_ARCH)) /usr/bin/$(CROSS_GNU_TYPE)-gcc \
 	  /usr/bin/$(CROSS_GNU_TYPE)-gcov-$(PV_GCC_$(CROSS_ARCH)) /usr/bin/$(CROSS_GNU_TYPE)-gcov \
 	  /usr/bin/$(CROSS_GNU_TYPE)-lto-dump-$(PV_GCC_$(CROSS_ARCH)) /usr/bin/$(CROSS_GNU_TYPE)-lto-dump \
-	  /usr/share/doc/gcc-$(PV_GCC)-$(CROSS_PKG_GNU_TYPE)-base/README.Bugs /usr/share/doc/cpp-$(CROSS_PKG_GNU_TYPE)/README.Bugs \
 	  $(if $(filter $(CROSS_ARCH), $(gcc49_archs)),, \
 	    /usr/bin/$(CROSS_GNU_TYPE)-gcov-dump-$(PV_GCC_$(CROSS_ARCH)) /usr/bin/$(CROSS_GNU_TYPE)-gcov-dump \
 	    /usr/bin/$(CROSS_GNU_TYPE)-gcov-tool-$(PV_GCC_$(CROSS_ARCH)) /usr/bin/$(CROSS_GNU_TYPE)-gcov-tool \
@@ -1235,7 +1315,34 @@ ifeq ($(with_native),yes)
 	dh_compress -i
 	dh_fixperms -i
 	dh_installdeb -i
-	dh_gencontrol -i
+	dh_gencontrol -pcpp-for-build -u-v$(EPOCH):$(CV_CPP)
+	dh_gencontrol -pgcc-for-build -u-v$(EPOCH):$(CV_GCC)
+	dh_gencontrol -pg++-for-build -u-v$(EPOCH):$(CV_GPP)
+ifneq (,$(filter gfortran-for-build, $(packages)))
+	dh_gencontrol -pgfortran-for-build -u-v$(EPOCH):$(CV_GFORT)
+endif
+ifneq (,$(filter gobjc-for-build, $(packages)))
+	dh_gencontrol -pgobjc-for-build -u-v$(EPOCH):$(CV_GOBJC)
+endif
+ifneq (,$(filter gobjc++-for-build, $(packages)))
+	dh_gencontrol -pgobjc++-for-build -u-v$(EPOCH):$(CV_GOBJCXX)
+endif
+ifneq (,$(filter gdc-for-build, $(packages)))
+	dh_gencontrol -pgdc-for-build -u-v$(EPOCH):$(CV_GDC)
+endif
+ifneq (,$(filter gccgo-for-build, $(packages)))
+	dh_gencontrol -pgccgo-for-build -u-v$(EPOCH):$(CV_GGO)
+endif
+ifneq (,$(filter gm2-for-build, $(packages)))
+	dh_gencontrol -pgm2-for-build -u-v$(EPOCH):$(CV_GM2)
+endif
+	dh_gencontrol -i -Ncpp-for-build -Ngcc-for-build -Ng++-for-build \
+	  $(if $(filter gfortran-for-build, $(packages)), -Ngfortran-for-build) \
+	  $(if $(filter gobjc-for-build, $(packages)), -Ngobjc-for-build) \
+	  $(if $(filter gobjc++-for-build, $(packages)), -Ngobjc++-for-build) \
+	  $(if $(filter gdc-for-build, $(packages)), -Ngdc-for-build) \
+	  $(if $(filter gccgo-for-build, $(packages)), -Ngccgo-for-build) \
+	  $(if $(filter gm2-for-build, $(packages)), -Ngm2-for-build)
 	dh_md5sums -i
 	dh_builddeb -i
 endif
@@ -1246,11 +1353,12 @@ ifeq ($(with_native),yes)
 	dh_testdir
 	dh_testroot
 #	dh_installdebconf
-	dh_installdocs -pcpp
-	for p in `dh_listpackages $(nopkgs_native) -Ncpp $(if $(filter yes,$(with_gfdl_docs)),-Ncpp-doc -Ngcc-doc -Ngfortran-doc -Ngccgo-doc) -Ngdc -Nlibgphobos-dev`; do \
+	dh_installdocs -pcpp$(NATIVE_SUFFIX)
+	for p in `dh_listpackages -a $(nopkgs_native) -Ncpp$(NATIVE_SUFFIX) $(if $(filter yes,$(with_gfdl_docs)),-Ncpp-doc -Ngcc-doc -Ngfortran-doc -Ngccgo-doc) -Ngdc -Ngdc$(NATIVE_SUFFIX) -Ngdc-for-host -Nlibgphobos-dev`; do \
 	  case "$$p" in \
+	    *$(NATIVE_SUFFIX)) t=cpp$(NATIVE_SUFFIX) ;; \
 	    *-gnu*|*-kfreebsd*|gcc-hppa64-linux-gnu) continue;; \
-	    *) t=cpp; \
+	    *) t=cpp$(NATIVE_SUFFIX); \
 	  esac; \
 	  echo ln -sf $$t debian/$$p/usr/share/doc/$$p; \
 	  mkdir -p debian/$$p/usr/share/doc; \
@@ -1258,8 +1366,12 @@ ifeq ($(with_native),yes)
 	  ln -sf $$t debian/$$p/usr/share/doc/$$p; \
 	done
 
-	dh_installchangelogs -pcpp -pgdc -plibgphobos-dev
-	for p in cpp gdc libgphobos-dev; do \
+	for p in \
+	  cpp$(NATIVE_SUFFIX) \
+	  $(if $(filter $(DEB_HOST_ARCH), $(d_archs)), gdc$(NATIVE_SUFFIX)) \
+	  $(if $(filter $(DEB_HOST_ARCH), $(phobos_archs)), libgphobos-dev); \
+	do \
+	  dh_installchangelogs -p$$p; \
 	  mv debian/$$p/usr/share/doc/$$p/changelog \
 	    debian/$$i/usr/share/doc/$$p/changelog.Debian; \
 	  mkdir -p -m 755 debian/$$p/usr/share/lintian/overrides; \
@@ -1299,26 +1411,9 @@ endif
 
 	dh_compress -a $(nopkgs_native) -XREADME.Debian
 
-ifneq (,$(filter $(DEB_HOST_ARCH),i386 kfreebsd-i386 hurd-i386))
-# temporary i486-* symlinks for jessie/sid
-  ifeq ($(DEB_HOST_GNU_CPU)),i586)
-	gnutype=$(subst i586,i486,$(DEB_HOST_GNU_TYPE)); \
-	for i in $$(find debian -name 'i586-*'); do \
-	  cp -a $$i $$(echo $$i | sed "s,$(DEB_HOST_GNU_TYPE),$$gnutype,"); \
-	done
-  endif
-# for backports to wheezy and squeeze
-  ifeq ($(DEB_HOST_GNU_CPU)),i486)
-	gnutype=$(subst i486,i586,$(DEB_HOST_GNU_TYPE)); \
-	for i in $$(find debian -name 'i486-*'); do \
-	  cp -a $$i $$(echo $$i | sed "s,$(DEB_HOST_GNU_TYPE),$$gnutype,"); \
-	done
-  endif
-endif
-
 	for p in $$(dh_listpackages -a); do \
 	  case $$p in \
-	    cpp|g++|gcc|gccgo|gfortran|gcc-hppa64-linux-gnu|gcc-offload-*) \
+	    cpp|cpp$(NATIVE_SUFFIX)|g++|g++$(NATIVE_SUFFIX)|gcc|gcc$(NATIVE_SUFFIX)|gccgo|gccgo$(NATIVE_SUFFIX)|gfortran|gfortran$(NATIVE_SUFFIX)|gcc-hppa64-linux-gnu|gcc-offload-*) \
 	      [ "$(with_gfdl_docs)" = yes ] && continue; \
 	      mkdir -p -m 755 debian/$$p/usr/share/lintian/overrides; \
 	      echo "$$p binary: no-manual-page" \
@@ -1332,45 +1427,42 @@ endif
 
 	dh_fixperms -a $(nopkgs_native)
 	dh_installdeb -a $(nopkgs_native)
-	dh_gencontrol -pcpp \
+	dh_gencontrol -pcpp -pcpp$(NATIVE_SUFFIX) -pcpp-for-host \
 	  $(if $(filter yes, $(with_gfdl_docs)),-pcpp-doc) \
 	  -u-v$(EPOCH):$(CV_CPP)
-	dh_gencontrol -pgcc \
+	dh_gencontrol -pgcc -pgcc$(NATIVE_SUFFIX) -pgcc-for-host \
 	  $(if $(filter yes,$(with_multilib)),-pgcc-multilib) \
 	  $(if $(filter yes, $(with_gfdl_docs)),-pgcc-doc) \
 	  -u-v$(EPOCH):$(CV_GCC)
-ifneq (,$(filter gdc, $(packages)))
-	dh_gencontrol -pgdc $(if $(filter yes,$(with_multilib)),-pgdc-multilib) \
+ifneq (,$(filter gdc gdc$(NATIVE_SUFFIX) gdc-for-host gdc-multilib, $(packages)))
+	dh_gencontrol $(foreach p,$(filter gdc gdc$(NATIVE_SUFFIX) gdc-for-host gdc-multilib,$(packages)),-p$(p)) \
 	  -u-v$(EPOCH):$(CV_GDC)
 endif
 ifneq (,$(filter libgphobos-dev, $(packages)))
 	dh_gencontrol -plibgphobos-dev -u-v$(CV_GDC)
 endif
-ifneq (,$(filter gm2, $(packages)))
-	dh_gencontrol -pgm2 -pgm2-doc \
+ifneq (,$(filter gm2 gm2$(NATIVE_SUFFIX) gm2-for-host gm2-doc, $(packages)))
+	dh_gencontrol $(foreach p,$(filter gm2 gm2$(NATIVE_SUFFIX) gm2-for-host gm2-doc,$(packages)),-p$(p)) \
 	  -u-v$(EPOCH):$(CV_GM2)
 endif
-ifneq (,$(filter g++, $(packages)))
-	dh_gencontrol -pg++ $(if $(filter yes,$(with_multilib)),-pg++-multilib) \
+ifneq (,$(filter g++ g++$(NATIVE_SUFFIX) g++-for-host g++-multilib, $(packages)))
+	dh_gencontrol $(foreach p,$(filter g++ g++$(NATIVE_SUFFIX) g++-for-host g++-multilib,$(packages)),-p$(p)) \
 	  -u-v$(EPOCH):$(CV_GPP)
 endif
-ifneq (,$(filter gobjc, $(packages)))
-	dh_gencontrol -pgobjc $(if $(filter yes,$(with_multilib)),-pgobjc-multilib) \
+ifneq (,$(filter gobjc gobjc$(NATIVE_SUFFIX) gobjc-for-host gobjc-multilib, $(packages)))
+	dh_gencontrol $(foreach p,$(filter gobjc gobjc$(NATIVE_SUFFIX) gobjc-for-host gobjc-multilib,$(packages)),-p$(p)) \
 	  -u-v$(EPOCH):$(CV_GOBJC)
 endif
-ifneq (,$(filter gobjc++, $(packages)))
-	dh_gencontrol -pgobjc++ $(if $(filter yes,$(with_multilib)),-pgobjc++-multilib) \
+ifneq (,$(filter gobjc++ gobjc++$(NATIVE_SUFFIX) gobjc++-for-host gobjc++-multilib, $(packages)))
+	dh_gencontrol $(foreach p,$(filter gobjc++ gobjc++$(NATIVE_SUFFIX) gobjc++-for-host gobjc++-multilib,$(packages)),-p$(p)) \
 	  -u-v$(EPOCH):$(CV_GOBJCXX)
 endif
-ifneq (,$(filter gfortran, $(packages)))
-	dh_gencontrol -pgfortran $(if $(filter yes,$(with_multilib)),-pgfortran-multilib) \
-	  $(if $(filter yes, $(with_gfdl_docs)),-pgfortran-doc) \
+ifneq (,$(filter gfortran gfortran$(NATIVE_SUFFIX) gfortran-for-host gfortran-multilib gfortran-doc, $(packages)))
+	dh_gencontrol $(foreach p,$(filter gfortran gfortran$(NATIVE_SUFFIX) gfortran-for-host gfortran-multilib gfortran-doc,$(packages)),-p$(p)) \
 	  -u-v$(EPOCH):$(CV_GFORT)
 endif
-ifneq (,$(filter gccgo, $(packages)))
-	dh_gencontrol -pgccgo \
-	  $(if $(filter yes,$(with_go_multilib)),-pgccgo-multilib) \
-	  $(if $(filter yes, $(with_gfdl_docs)),-pgccgo-doc) \
+ifneq (,$(filter gccgo gccgo$(NATIVE_SUFFIX) gccgo-for-host gccgo-multilib gccgo-doc, $(packages)))
+	dh_gencontrol $(foreach p,$(filter gccgo gccgo$(NATIVE_SUFFIX) gccgo-for-host gccgo-multilib gccgo-doc,$(packages)),-p$(p)) \
 	  -u-v$(EPOCH):$(CV_GGO)
 endif
 ifneq (,$(filter gcc-offload-nvptx, $(packages)))

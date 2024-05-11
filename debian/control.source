@@ -4,8 +4,8 @@ Priority: standard
 Maintainer: Debian GCC Maintainers <debian-gcc@lists.debian.org>
 Uploaders: Matthias Klose <doko@debian.org>
 Standards-Version: 4.6.2
-Build-Depends: m4, debhelper (>= 11),
-  gcc-13-base (>= 13.2.0-2~),
+Build-Depends: m4, debhelper-compat (= 13),
+  gcc-13-base (>= 13.2.0-12~),
   lsb-release
 Vcs-Browser: https://salsa.debian.org/toolchain-team/gcc-defaults
 Vcs-Git: https://salsa.debian.org/toolchain-team/gcc-defaults.git

@@ -1,0 +1,31 @@
+version:cpp=4:13.2.0-1
+version:gcc=4:13.2.0-1
+version:gpp=4:13.2.0-1
+version:gobjc=4:13.2.0-1
+version:gobjcxx=4:13.2.0-1
+version:gfort=4:13.2.0-1
+version:ggo=4:13.2.0-1
+version:gdc=13.2.0-1
+version:gm2=13.2.0-1
+pv:cpp=13
+pv:gcc=13
+pv:gpp=13
+pv:gobjc=13
+pv:gobjcxx=13
+pv:gfort=13
+pv:ggo=13
+pv:gdc=13
+pv:gm2=13
+reqv:cpp=(>= 13.2.0-2~)
+reqv:gcc=(>= 13.2.0-2~)
+reqv:gpp=(>= 13.2.0-2~)
+reqv:gobjc=(>= 13.2.0-2~)
+reqv:gobjcxx=(>= 13.2.0-2~)
+reqv:gfort=(>= 13.2.0-2~)
+reqv:ggo=(>= 13.2.0-2~)
+reqv:gdc=(>= 13.2.0-2~)
+reqv:gm2=(>= 13.2.0-2~)
+fortran:mod-version=gfortran-mod-15
+dep:libgphobos=libgphobos-dev (= ${version:gdc})
+misc:Depends=
+misc:Pre-Depends=

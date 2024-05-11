@@ -1,3 +1,50 @@
+gcc-defaults (1.211) unstable; urgency=medium
+
+  * For *-for-{build,host} add dependencies on *-N-for-{build,host}.
+  * Build packages for loong64.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 27 Jan 2024 18:30:18 +0100
+
+gcc-defaults (1.210) unstable; urgency=medium
+
+  * Fix version number for *-for-build packages.
+  * Adjust Conflicts/Replaces for GCC 13.
+  * Still default to GCC 13.
+  * Update gcc-multilib Conflicts.
+  * Fix and add dependencies for -for-build and -for-host packages.
+  * Fix build on architectures without having gdc.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 27 Jan 2024 08:45:57 +0100
+
+gcc-defaults (1.212) experimental; urgency=medium
+
+  [ Matthias Klose ]
+  * Default to GCC 14.
+  * cpp: Don't ship an empty /lib directory. Closes: #1057770.
+  * Also use the epoch for dependencies on unversioned gdc and gm2 packages.
+  * Fix some packaging stuff pointed out by the Debian janitor.
+  * Add hurd-amd64.
+  * Fix building the GFDL -doc packages.
+  * Stop providing i586 symlinks on i386.
+
+  [ Helmut Grohne ]
+  * Fix libgphobos dependency.
+  * Speed up _gnu_type function.
+  * Adjust control file generation for gcc-for-host packages.
+  * Re-order the architectures in the control file.
+  * Refactor computation of HOST_ARCHS_* and CROSS_ARCHS.
+  * Add packages {cpp,gcc,g++,gfortran,gobjc,gobjc++,gdc,gccgo,gm2}-$triplet.
+  * Add packages *-for-{build,host}.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 23 Jan 2024 09:39:10 +0100
+
+gcc-defaults (1.209) unstable; urgency=medium
+
+  * Build armel packages from the ports package.
+  * Build release compilers also on s390x.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 26 Nov 2023 13:39:10 +0100
+
 gcc-defaults (1.208) unstable; urgency=medium
 
   * Bump GCC 13 version to 13.2.0.
@@ -463,7 +510,7 @@ gcc-defaults (1.135) unstable; urgency=medium
 gcc-defaults (1.134) unstable; urgency=medium
 
   [ Aurelien Jarno ]
-  * Don't build libphobos-dev on kfreebsd-amd64 and kfreebsd-i386 as 
+  * Don't build libphobos-dev on kfreebsd-amd64 and kfreebsd-i386 as
     libphobos-4.9-dev is not built on these architectures. Closes: #761277.
 
   [ Matthias Klose ]
@@ -723,7 +770,7 @@ gcc-defaults (1.108) unstable; urgency=low
   * debian/rules: Remove duplicate code.
   * Fix libgcj.pc symlink for multiarch builds.
   * Fix upgrade path (/usr/include/asm must be a symlink). Closes: #638418.
-  
+
   [ Aurelien Jarno ]
   * Add support for s390x.
 
@@ -943,7 +990,7 @@ gcc-defaults (1.84) unstable; urgency=low
     gcj-4.1. Closes: #396583.
   * Update Debian README. Closes: #498950.
 
- -- Matthias Klose <doko@debian.org>  Sun, 18 May 2009 22:12:18 +0200
+ -- Matthias Klose <doko@debian.org>  Mon, 18 May 2009 22:12:18 +0200
 
 gcc-defaults (1.83) unstable; urgency=low
 
@@ -1040,7 +1087,7 @@ gcc-defaults (1.71) unstable; urgency=high
   * Remove jv-scan symlink. Closes: #477548.
   * Make ObjC, Obj-C++ 4.3 the default on armel.
   * Use /emul/... for amd64 biarch only.
- 
+
  -- Matthias Klose <doko@debian.org>  Fri, 09 May 2008 00:39:11 +0200
 
 gcc-defaults (1.70) unstable; urgency=low
@@ -1363,7 +1410,7 @@ gcc-defaults (1.37) unstable; urgency=medium
   * gcj: Add a /usr/share/java/libgcj.jar symlink.
 
  -- Matthias Klose <doko@debian.org>  Tue,  4 Jul 2006 23:52:43 +0200
-	
+
 gcc-defaults (1.36) unstable; urgency=medium
 
   * Make gcc-4.1 the default C compiler, g++-4.1 the default C++ compiler,

@@ -1,10 +1,12 @@
 
 Package: cpp-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Section: interpreters
 Depends: cpp-${pv:cpp}-CROSS_GNU_TYPE ${reqv:cpp}, ${misc:Depends}
+Breaks: cpp (<< 4:13.2.0-3)
+Replaces: cpp (<< 4:13.2.0-3)
 Suggests: cpp-doc
 Description: GNU C preprocessor (cpp) for the CROSS_ARCH architecture
  The GNU C preprocessor is a macro processor that is used automatically
@@ -18,12 +20,14 @@ Description: GNU C preprocessor (cpp) for the CROSS_ARCH architecture
 
 Package: gcc-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Depends: cpp-CROSS_GNU_TYPE (= ${version:cpp}),
   gcc-${pv:gcc}-CROSS_GNU_TYPE ${reqv:gcc},
   ${misc:Depends}
-Recommends: libc6-dev-CROSS_ARCH-cross | libc-dev-CROSS_ARCH-cross
+Breaks: gcc (<< 4:13.2.0-3)
+Replaces: gcc (<< 4:13.2.0-3)
+Recommends: ${gcc-CROSS_GNU_TYPE:recommends}
 Suggests: make, manpages-dev, autoconf, automake, libtool, flex, bison, gdb-CROSS_GNU_TYPE, gcc-doc
 Description: GNU C compiler for the CROSS_ARCH architecture
  This is the GNU C compiler, a fairly portable optimizing compiler for C.
@@ -33,12 +37,14 @@ Description: GNU C compiler for the CROSS_ARCH architecture
 
 Package: g++-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Depends: cpp-CROSS_GNU_TYPE (= ${version:cpp}),
   gcc-CROSS_GNU_TYPE (= ${version:cpp}),
   g++-${pv:gpp}-CROSS_GNU_TYPE ${reqv:gpp},
   ${misc:Depends}
+Breaks: g++ (<< 4:13.2.0-3)
+Replaces: g++ (<< 4:13.2.0-3)
 Description: GNU C++ compiler for the CROSS_ARCH architecture
  This is the GNU C++ compiler, a fairly portable optimizing compiler for C++.
  .
@@ -47,12 +53,14 @@ Description: GNU C++ compiler for the CROSS_ARCH architecture
 
 Package: gobjc-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Depends: cpp-CROSS_GNU_TYPE (>= ${version:cpp}),
   gcc-CROSS_GNU_TYPE (>= ${version:cpp}),
   gobjc-${pv:gobjc}-CROSS_GNU_TYPE ${reqv:gobjc},
   ${misc:Depends}
+Breaks: gobjc (<< 4:13.2.0-3)
+Replaces: gobjc (<< 4:13.2.0-3)
 Description: GNU Objective-C compiler for the CROSS_ARCH architecture
  This is the GNU Objective-C compiler, which compiles Objective-C on platforms
  supported by the gcc compiler. It uses the gcc backend to generate optimized
@@ -63,13 +71,15 @@ Description: GNU Objective-C compiler for the CROSS_ARCH architecture
 
 Package: gobjc++-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Depends: cpp-CROSS_GNU_TYPE (>= ${version:cpp}),
   gcc-CROSS_GNU_TYPE (>= ${version:cpp}),
   gobjc++-${pv:gobjcxx}-CROSS_GNU_TYPE ${reqv:gobjcxx},
   ${misc:Depends}
 Recommends: g++-CROSS_GNU_TYPE (>= ${version:cpp}), gobjc-CROSS_GNU_TYPE (>= ${version:cpp})
+Breaks: gobjc++ (<< 4:13.2.0-3)
+Replaces: gobjc++ (<< 4:13.2.0-3)
 Description: GNU Objective-C++ compiler for the CROSS_ARCH architecture
  This is the GNU Objective-C++ compiler, which compiles
  Objective-C++ on platforms supported by the gcc compiler. It uses the
@@ -80,13 +90,15 @@ Description: GNU Objective-C++ compiler for the CROSS_ARCH architecture
 
 Package: gfortran-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Depends: cpp-CROSS_GNU_TYPE (= ${version:cpp}),
   gcc-CROSS_GNU_TYPE (= ${version:gcc}),
   gfortran-${pv:gfort}-CROSS_GNU_TYPE ${reqv:gfort},
   ${misc:Depends}
 Suggests: gfortran-doc
+Breaks: gfortran (<< 4:13.2.0-3)
+Replaces: gfortran (<< 4:13.2.0-3)
 Description: GNU Fortran 95 compiler for the CROSS_ARCH architecture
  This is the GNU Fortran 95 compiler, which compiles Fortran 95 on platforms
  supported by the gcc compiler. It uses the gcc backend to generate optimized
@@ -97,13 +109,15 @@ Description: GNU Fortran 95 compiler for the CROSS_ARCH architecture
 
 Package: gccgo-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Depends: cpp-CROSS_GNU_TYPE (>= ${version:cpp}),
   g++-CROSS_GNU_TYPE (>= ${version:gcc}),
   gccgo-${pv:ggo}-CROSS_GNU_TYPE ${reqv:ggo},
   ${misc:Depends}
 Suggests: gccgo-doc
+Breaks: gccgo (<< 4:13.2.0-3)
+Replaces: gccgo (<< 4:13.2.0-3)
 Description: Go compiler (based on GCC) for the CROSS_ARCH architecture
  This is the GNU Go compiler, which compiles Go on platforms supported by
  the gcc compiler. It uses the gcc backend to generate optimized code.
@@ -113,11 +127,13 @@ Description: Go compiler (based on GCC) for the CROSS_ARCH architecture
 
 Package: gdc-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
 Depends: cpp-CROSS_GNU_TYPE (>= ${version:cpp}),
   gdc-${pv:gdc}-CROSS_GNU_TYPE ${reqv:gdc},
   ${misc:Depends}
+Breaks: gdc (<< 4:13.2.0-3)
+Replaces: gdc (<< 4:13.2.0-3)
 Description: GNU D compiler (based on GCC) for the CROSS_ARCH architecture
  This is the GNU D compiler, which compiles D on platforms supported by
  the gcc compiler. It uses the gcc backend to generate optimized code.
@@ -127,11 +143,13 @@ Description: GNU D compiler (based on GCC) for the CROSS_ARCH architecture
 
 Package: gm2-CROSS_GNU_TYPE
 Priority: optional
-Architecture: @host_archs@
+Architecture: NATIVE_ARCH @host_archs@
 Multi-Arch: foreign
-Depends: cpp-CROSS_GNU_TYPE (>= ${version:cpp}),
+Depends: cpp-CROSS_GNU_TYPE (= ${version:cpp}),
   gm2-${pv:gm2}-CROSS_GNU_TYPE ${reqv:gm2},
   ${misc:Depends}
+Breaks: gm2 (<< 4:13.2.0-3)
+Replaces: gm2 (<< 4:13.2.0-3)
 Description: GNU Modula-2 compiler (based on GCC) for the CROSS_ARCH architecture
  This is the GNU Modula-2 compiler, which compiles Modula-2 on platforms
  supported by the gcc compiler. It uses the gcc backend to generate optimized

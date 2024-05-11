@@ -1,0 +1,45 @@
+version:cpp=4:14-20240120-0
+version:gcc=4:14-20240120-0
+version:gpp=4:14-20240120-0
+version:gobjc=4:14-20240120-0
+version:gobjcxx=4:14-20240120-0
+version:gfort=4:14-20240120-0
+version:ggo=4:14-20240120-0
+version:gnat=4:14-20240120-0
+version:gdc=4:14-20240120-0
+version:gm2=4:14-20240120-0
+version:offl=4:14-20240120-0
+pv:cpp=14
+pv:gcc=14
+pv:gpp=14
+pv:gobjc=14
+pv:gobjcxx=14
+pv:gfort=14
+pv:ggo=14
+pv:gnat=14
+pv:gdc=14
+pv:gm2=14
+pv:offl=14
+reqv:cpp=(>= 14-20240120-0~)
+reqv:gcc=(>= 14-20240120-0~)
+reqv:gpp=(>= 14-20240120-0~)
+reqv:gobjc=(>= 14-20240120-0~)
+reqv:gobjcxx=(>= 14-20240120-0~)
+reqv:gfort=(>= 14-20240120-0~)
+reqv:ggo=(>= 14-20240120-0~)
+reqv:gnat=(>= 14-20240120-0~)
+reqv:gdc=(>= 14-20240120-0~)
+reqv:gm2=(>= 14-20240120-0~)
+reqv:offl=(>= 14-20240120-0~)
+gcc-x86-64-linux-gnu:recommends=libc6-dev, libc-dev
+native:suffix=-x86-64-linux-gnu
+pkgmulti:gcc=gcc-multilib
+pkgmulti:gpp=g++-multilib
+pkgmulti:gobjc=gobjc-multilib
+pkgmulti:gobjcxx=gobjc++-multilib
+pkgmulti:gfort=gfortran-multilib
+pkgmulti:ggo=gccgo-multilib
+pkgmulti:gdc=gdc-multilib
+dep:libgphobos=libgphobos-dev (= 14-20240120-0)
+misc:Depends=
+misc:Pre-Depends=

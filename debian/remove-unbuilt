@@ -1,0 +1,39 @@
+#! /usr/bin/python3
+
+import optparse
+import sys
+
+def main():
+    usage = """usage: %prog [OPTIONS] <control file> <exclude list>
+strip not-built packages from the control file.
+"""
+    parser = optparse.OptionParser(usage)
+    (options, args) = parser.parse_args()
+
+    if len(args) > 2 or len(args) < 2:
+        parser.error("takes 2 arguments (<control file> <invalid list>)")
+    (control_file, exclude_list) = args
+
+    with open(exclude_list, 'r') as f:
+        excludes = set([s.strip() for s in f.readlines()])
+
+    sys.stderr.write("%d packages in the exclude list\n" % len(excludes))
+    skip = False
+    excluded = 0
+    with open(control_file, 'r') as f:
+        for line in f:
+            if line.startswith('Package:'):
+                pkg = line.split()[-1].strip()
+                if pkg in excludes:
+                    skip = True
+                if skip:
+                    excluded += 1
+            if skip and line == '\n':
+                skip = False
+                continue
+            if not skip:
+                sys.stdout.write(line)
+    sys.stderr.write("%d packages excluded from the control file\n" % excluded)
+
+if __name__ == '__main__':
+    main()
