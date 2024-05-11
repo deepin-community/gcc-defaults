@@ -1,3 +1,9 @@
+gcc-defaults (1.211deepin1) unstable; urgency=medium
+
+  * Fix gcc-13 build-depends version.
+
+ -- LiChengGang <lichenggang@uniontech.com>  Sat, 11 May 2024 11:36:32 +0800
+
 gcc-defaults (1.211) unstable; urgency=medium
 
   * For *-for-{build,host} add dependencies on *-N-for-{build,host}.
