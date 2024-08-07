@@ -2,7 +2,7 @@ gcc-defaults (1.208deepin1) UNRELEASED; urgency=medium
 
   * defaulting to GCC 12.
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Tue, 06 Aug 2024 18:07:21 +0800
+ -- Tianyu Chen <sweetyfish@deepin.org>  Wed, 07 Aug 2024 10:28:21 +0800
 
 gcc-defaults (1.208) unstable; urgency=medium
 
