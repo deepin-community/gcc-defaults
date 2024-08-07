@@ -187,7 +187,8 @@ REL_NO_1300	:= $(shell expr $(VMINOR) - 203)$(REL_EXT)
 REL_NO_1310	:= $(shell expr $(VMINOR) - 203)$(REL_EXT)
 REL_NO_1320	:= $(shell expr $(VMINOR) - 207)$(REL_EXT)
 
-REL_NO_1320_REALLY1230 := $(shell expr $(VMINOR) - 207)$(REL_EXT)
+# 4:13.2.0+really12.3.0-0deepin1
+REL_NO_1320_REALLY1230 := $(shell expr $(VMINOR) - 208)$(REL_EXT)
 
 # minimum required gcc-X.Y versions
 REQV_295	:= (>= 1:2.95.4-16)
