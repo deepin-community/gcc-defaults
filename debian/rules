@@ -559,20 +559,20 @@ $(foreach a, $(all_archs), \
 
 # number for the package name (e.g. 4.9, 5, 6)
 $(foreach v, V_CPP V_GCC V_GPP V_GOBJC V_GOBJCXX V_GFORT V_GGO V_GNAT V_GDC V_GM2 V_BRIG V_OFFL, \
-  $(eval P$(v) = $(firstword $(subst -, ,$(subst ., ,$(call $(v)))))) \
+  $(eval P$(v) = 12) \
 )
 $(foreach a, $(all_archs), \
   $(foreach v, V_CPP V_GCC V_GPP V_GOBJC V_GOBJCXX V_GFORT V_GGO V_GNAT V_GDC V_GM2 V_BRIG V_OFFL, \
-    $(eval P$(v)_$(a) = $(firstword $(subst -,  ,$(subst ., ,$(call $(v)_$(a)))))) \
+    $(eval P$(v)_$(a) = 12) \
 ))
 
 ifneq (,$(filter $(DEB_HOST_ARCH), $(gcc49_archs)))
   $(foreach v, V_CPP V_GCC V_GPP V_GOBJC V_GOBJCXX V_GFORT V_GGO V_GDC V_GM2 V_BRIG V_OFFL, \
-    $(eval P$(v) = $(subst $(SPACE),.,$(wordlist 1,2,$(subst ., ,$(call $(v)))))) \
+    $(eval P$(v) = 12) \
   )
   $(foreach a, $(gcc49_archs), \
     $(foreach v, V_CPP V_GCC V_GPP V_GOBJC V_GOBJCXX V_GFORT V_GGO V_GDC V_GM2 V_BRIG V_OFFL, \
-      $(eval P$(v)_$(a) = $(subst $(SPACE),.,$(wordlist 1,2,$(subst ., ,$(call $(v)_$(a)))))) \
+      $(eval P$(v)_$(a) = 12) \
   ))
 endif
 
