@@ -1,3 +1,10 @@
+gcc-defaults (1.208deepin2) unstable; urgency=medium
+
+  * Enable loong64 packages (not -ports for deepin).
+  * Disable hosts/targets not in deepin's scope.
+
+ -- Mingcong Bai <baimingcong@uniontech.com>  Wed, 09 Oct 2024 14:31:05 +0800
+
 gcc-defaults (1.208deepin1) unstable; urgency=medium
 
   * defaulting to GCC 12.
