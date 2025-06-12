@@ -1,3 +1,9 @@
+gcc-defaults (1.208deepin3) unstable; urgency=medium
+
+  * add sw64 support.
+
+ -- liujianqiang <liujianqiang@uniontech.com>  Thu, 12 Jun 2025 10:41:11 +0800
+
 gcc-defaults (1.208deepin2) unstable; urgency=medium
 
   * Enable loong64 packages (not -ports for deepin).
