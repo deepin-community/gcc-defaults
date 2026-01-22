@@ -1,0 +1,10 @@
+
+Package: ga68-doc
+Section: doc
+Architecture: any
+Priority: optional
+Depends: ga68-${pv:ga68}-doc ${reqv:ga68}, ${misc:Depends}
+Suggests: ga68 (>= ${version:ga68})
+Description: Documentation for the GNU Algol-68 compiler
+ Documentation for the GNU Algol-68 compiler in info format (dependency
+ package).

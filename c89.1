@@ -36,10 +36,9 @@
 c89 \- ANSI (1989) C compiler
 .SH SYNOPSIS
 .B c89
-.I
-.RB "[\-pedantic]"
-.RB "[\-pedantic-errors]"
-.RB "[\-D_ANSI_SOURCE]"
+.RB [ \-pedantic ]
+.RB [ \-pedantic-errors ]
+.RB [ \-D_ANSI_SOURCE ]
 options ...
 .SH DESCRIPTION
 Calls the C compiler (cc) with the given
@@ -49,14 +48,15 @@ using a C language environment compatible with the
 .PP
 This includes proper handling of trigraphs,
 disabling non-ANSI compiler features (such as
-.B asm ,
-.B inline ,
-.B typeof ,
+.BR asm ,
+.BR inline ,
+.BR typeof ,
 and the $ character in identifiers),
 and definition of the preprocessor symbol
 __STRICT_ANSI__ .
 .SH SEE ALSO
-cc(1) for a description of all options.
+.BR cc (1)
+for a description of all options.
 .SH HISTORY
 Appeared in
 NetBSD 1.4 .

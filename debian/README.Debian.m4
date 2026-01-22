@@ -65,6 +65,9 @@ ifenabled(`gobjc++',`	gobjc++		: gobjc++-PV_GOBJCXX')
 ifenabled(`gnat',`	gnat		: gnat-PV_GNAT')
 ifenabled(`gpc',`	gpc		: gpc-PV_GPC')
 ifenabled(`gdc',`	gdc		: gdc-PV_GDC')
+ifenabled(`gm2',`	gm2		: gm2-PV_GM2')
+ifenabled(`gcobol',`	gcobol		: gcobol-PV_GCOBOL')
+ifenabled(`ga68',`	ga68		: ga68-PV_GA68')
 
 ifdef(`GFDL',`dnl
 Documentation for the default compilers can be found in
